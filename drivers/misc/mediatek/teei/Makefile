@@ -1,4 +1,4 @@
-# Copyright (c) 2015-2017 MICROTRUST Incorporated
+# Copyright (c) 2015-2016 MICROTRUST Incorporated
 # All Rights Reserved.
 #
 # This program is free software; you can redistribute it and/or
@@ -11,6 +11,6 @@
 # GNU General Public License for more details.
 
 ifeq ($(CONFIG_MICROTRUST_TEE_SUPPORT), y)
-$(info "CONFIG_MICROTRUST_TEE_VERSION=$(CONFIG_MICROTRUST_TEE_VERSION)")
-obj-y += $(subst ",,$(CONFIG_MICROTRUST_TEE_VERSION))/
+obj-y += V2.0/
 endif
+

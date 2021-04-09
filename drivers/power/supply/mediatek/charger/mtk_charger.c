@@ -30,6 +30,9 @@
  * Wy Chuang
  *
  */
+#if defined(TPLINK_CHARGING_FLOW)
+#include "mtk_charger_bsq08.h"
+#else 
 #include <linux/init.h>		/* For init/exit macros */
 #include <linux/module.h>	/* For MODULE_ marcros  */
 #include <linux/fs.h>
@@ -78,12 +81,18 @@ static struct charger_manager *pinfo;
 static struct list_head consumer_head = LIST_HEAD_INIT(consumer_head);
 static DEFINE_MUTEX(consumer_mutex);
 
+#if defined(CONFIG_TERACUBE_2E)
+bool chr_current_limi=0;
+#endif
 
 bool is_power_path_supported(void)
 {
 	if (pinfo == NULL)
 		return false;
-
+		//cjc add 
+#if defined(CONFIG_MTK_FAN5405_SUPPORT) || defined(CONFIG_MTK_ETA6937_SUPPORT)
+	return false;
+#endif
 	if (pinfo->data.power_path_support == true)
 		return true;
 
@@ -1206,6 +1215,9 @@ static int mtk_charger_plug_in(struct charger_manager *info,
 	return 0;
 }
 
+#if defined(CONFIG_TERACUBE_2E) //xjl 20200527
+extern int yk_wireless_charge_flag;
+#endif
 static int mtk_charger_plug_out(struct charger_manager *info)
 {
 	struct charger_data *pdata1 = &info->chg1_data;
@@ -1218,6 +1230,14 @@ static int mtk_charger_plug_out(struct charger_manager *info)
 	pdata1->disable_charging_count = 0;
 	pdata1->input_current_limit_by_aicl = -1;
 	pdata2->disable_charging_count = 0;
+
+#if defined(CONFIG_TERACUBE_2E)
+        chr_current_limi=0;
+#endif
+
+#if defined(CONFIG_TERACUBE_2E) //xjl 20200527
+	yk_wireless_charge_flag = 0;
+#endif
 
 	if (info->plug_out != NULL)
 		info->plug_out(info);
@@ -1479,6 +1499,15 @@ static void mtk_chg_get_tchg(struct charger_manager *info)
 	}
 }
 
+#if defined(CONFIG_TERACUBE_2E)
+#if defined(CONFIG_MTK_FAN5405_SUPPORT)
+extern void fan5405_set_iocharge(unsigned int val);
+#endif
+#if defined(CONFIG_MTK_ETA6937_SUPPORT)
+extern void eta6937_set_iocharge(unsigned int val);
+#endif
+#endif
+unsigned int yk_stop_percent=100;
 static void charger_check_status(struct charger_manager *info)
 {
 	bool charging = true;
@@ -1555,6 +1584,40 @@ static void charger_check_status(struct charger_manager *info)
 		charging = false;
 	if (info->vbusov_stat)
 		charging = false;
+
+#if defined(CONFIG_TERACUBE_2E)
+	if((battery_get_uisoc() >= yk_stop_percent)&&(yk_stop_percent < 100))//todo 100% not stop
+	{
+		printk("trx eta6937,battery_get_uisoc >= %d\n",yk_stop_percent);
+		charging = false;
+		goto stop_charging;
+	}
+
+	if(temperature <= 15)
+	{
+	    	chr_current_limi=1;
+
+#if defined(CONFIG_MTK_ETA6937_SUPPORT)
+            	printk("trx eta6937,temperatur=%d\n",temperature);
+     		eta6937_set_iocharge(0);
+#endif
+
+#if defined(CONFIG_MTK_FAN5405_SUPPORT)
+            	printk("trx fan5405,temperatur=%d\n",temperature);
+     		fan5405_set_iocharge(0);
+#endif
+		goto stop_charging;
+	}
+else if((temperature > 45) && (battery_get_bat_voltage() > 4100))
+	{
+		charging = false;
+		goto stop_charging;
+	}
+	else
+	{
+           chr_current_limi=0;
+	}
+#endif
 
 stop_charging:
 	mtk_battery_notify_check(info);
@@ -2125,8 +2188,33 @@ static int mtk_charger_parse_dt(struct charger_manager *info,
 					MAX_CHARGE_TEMP_MINUS_X_DEGREE;
 	}
 
+//added by xen for test 20171127
+#if defined(YKQ_BATTERY_PROFILE_FROM_HEADER)
+	info->data.battery_cv = BATTERY_CV;
+
+//charge current from header file(mtk_charger_init.h):
+	info->data.ac_charger_current = AC_CHARGER_CURRENT;
+	info->data.ac_charger_input_current = AC_CHARGER_INPUT_CURRENT;
+	info->data.non_std_ac_charger_current = NON_STD_AC_CHARGER_CURRENT;
+	info->data.charging_host_charger_current = CHARGING_HOST_CHARGER_CURRENT;
+	info->data.apple_1_0a_charger_current = APPLE_1_0A_CHARGER_CURRENT;
+	info->data.apple_2_1a_charger_current = APPLE_2_1A_CHARGER_CURRENT;
+	info->data.ta_ac_charger_current = TA_AC_CHARGING_CURRENT;
+	
+	info->data.usb_charger_current = USB_CHARGER_CURRENT;
+
+	info->thermal.min_charge_temp = MIN_CHARGE_TEMP;
+	info->thermal.min_charge_temp_plus_x_degree = MIN_CHARGE_TEMP_PLUS_X_DEGREE;
+	info->thermal.max_charge_temp = MAX_CHARGE_TEMP;
+	info->thermal.max_charge_temp_minus_x_degree = MAX_CHARGE_TEMP_MINUS_X_DEGREE;
+#endif
+//==============================
 	/* PE */
+#if defined(CONFIG_TERACUBE_2E)
+     info->data.ta_12v_support =0;
+#else
 	info->data.ta_12v_support = of_property_read_bool(np, "ta_12v_support");
+#endif
 	info->data.ta_9v_support = of_property_read_bool(np, "ta_9v_support");
 
 	if (of_property_read_u32(np, "pe_ichg_level_threshold", &val) >= 0)
@@ -2435,6 +2523,11 @@ static int mtk_charger_parse_dt(struct charger_manager *info,
 		info->data.bif_threshold2 = BIF_THRESHOLD2;
 	}
 
+//added by xen for test 20180103
+#if defined(YKQ_BATTERY_PROFILE_FROM_HEADER)
+	info->data.bif_threshold1 = BIF_THRESHOLD1;
+	info->data.bif_threshold2 = BIF_THRESHOLD2;
+#endif
 	if (of_property_read_u32(np, "bif_cv_under_threshold2", &val) >= 0)
 		info->data.bif_cv_under_threshold2 = val;
 	else {
@@ -3266,3 +3359,4 @@ module_exit(mtk_charger_exit);
 MODULE_AUTHOR("wy.chuang <wy.chuang@mediatek.com>");
 MODULE_DESCRIPTION("MTK Charger Driver");
 MODULE_LICENSE("GPL");
+#endif

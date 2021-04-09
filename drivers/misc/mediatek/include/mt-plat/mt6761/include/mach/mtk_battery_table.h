@@ -11,6 +11,16 @@
  * See http://www.gnu.org/licenses/gpl-2.0.html for more details.
  */
 
+#if defined(YK676_CUSTOMER_CAIFU_BSH18_HDPLUS)||defined(YK676_CUSTOMER_CAIFU_BSQ06_HDPLUS)
+	#include "mtk_battery_table_yk676_tplink.h"
+#elif defined(YK686_CUSTOMER_YINMAI_S64390_HDPLUS)
+	#include "mtk_battery_table_yk686_yinmai.h"
+#elif defined YK676_CUSTOMER_YAAOXING_F18_HDPLUS
+	#include "mtk_battery_table_yk676_yaaoxing.h" 
+#elif defined(YK676_CUSTOMER_KEMI_LT600_HDPLUS)
+	#include "mtk_battery_table_yk676_kemi.h"
+#else
+
 #ifndef _MTK_BATTERY_TABLE_H
 #define _MTK_BATTERY_TABLE_H
 
@@ -212,7 +222,7 @@ int g_temperature[MAX_TABLE] = {
 #define BIF_NTC_R 16000
 
 #if (BAT_NTC_10 == 1)
-struct FUELGAUGE_TEMPERATURE Fg_Temperature_Table[21] = {
+struct FUELGAUGE_TEMPERATURE Fg_Temperature_Table[24] = {
 		{-40, 195652},
 		{-35, 148171},
 		{-30, 113347},
@@ -233,7 +243,10 @@ struct FUELGAUGE_TEMPERATURE Fg_Temperature_Table[21] = {
 		{45, 4917},
 		{50, 4161},
 		{55, 3535},
-		{60, 3014}
+		{60, 3014},
+		{65, 2609},
+		{70, 2249},
+		{75, 1947}
 };
 #endif
 
@@ -4008,4 +4021,5 @@ struct FUELGAUGE_PROFILE_STRUCT fg_profile_t9[TOTAL_BATTERY_NUMBER][90] = {
  * ============================================================
  */
 
+#endif
 #endif

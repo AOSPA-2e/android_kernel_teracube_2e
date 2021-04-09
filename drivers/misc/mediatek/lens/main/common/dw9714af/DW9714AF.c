@@ -16,6 +16,11 @@
  *
  *
  */
+#if defined(DW9763_V1_LENS_SUPPORT) //xjl 20181119
+#include "DW9714AF_dw9763_v1.h"
+#elif defined(YK676_CUSTOMER_TRX_S606_HDPLUS) //xjl 20200108
+#include "DW9714AF_TRX_S606.h"        
+#else
 
 #include <linux/delay.h>
 #include <linux/fs.h>
@@ -248,3 +253,5 @@ int DW9714AF_GetFileName(unsigned char *pFileName)
 	#endif
 	return 1;
 }
+#endif
+

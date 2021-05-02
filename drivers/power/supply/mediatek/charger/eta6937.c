@@ -1296,16 +1296,16 @@ static ssize_t store_eta6937_access(struct device *dev, struct device_attribute 
 			val = strsep(&pvalue, " ");
 			ret = kstrtou32(val, 16, (unsigned int *)&reg_value);
 
-			pr_info(
+			pr_debug(
 			    "[store_eta6937_access] write eta6937 reg 0x%x with value 0x%x !\n",
 			     reg_address, reg_value);
 			ret = eta6937_config_interface(reg_address, reg_value, 0xFF, 0x0);
 		} else {
 			ret = eta6937_read_interface(reg_address, &g_reg_value_eta6937, 0xFF, 0x0);
-			pr_info(
+			pr_debug(
 			    "[store_eta6937_access] read eta6937 reg 0x%x with value 0x%x !\n",
 			     reg_address, g_reg_value_eta6937);
-			pr_info(
+			pr_debug(
 			    "[store_eta6937_access] Please use \"cat eta6937_access\" to get value\r\n");
 		}
 	}
@@ -1371,10 +1371,10 @@ static int __init eta6937_init(void)
 	i2c_register_board_info(eta6937_BUSNUM, &i2c_eta6937, 1);
 #endif
 	if (i2c_add_driver(&eta6937_driver) != 0) {
-		pr_info(
+		pr_debug(
 			    "[eta6937_init] failed to register eta6937 i2c driver.\n");
 	} else {
-		pr_info(
+		pr_debug(
 			    "[eta6937_init] Success to register eta6937 i2c driver.\n");
 	}
 

@@ -69,13 +69,13 @@ pr_debug("FDVT [%s] " format, __func__, ##args)
 #define LOG_DBG(format, args...) \
 pr_debug("FDVT [%s] " format, __func__, ##args)
 #define LOG_INF(format, args...) \
-pr_info("FDVT [%s] " format, __func__, ##args)
+pr_debug("FDVT [%s] " format, __func__, ##args)
 #define LOG_WRN(format, args...) \
-pr_info("FDVT [%s] WARNING: " format, __func__, ##args)
+pr_debug("FDVT [%s] WARNING: " format, __func__, ##args)
 #define LOG_ERR(format, args...) \
-pr_info("FDVT [%s, line%04d] ERROR: " format, __func__, __LINE__, ##args)
+pr_debug("FDVT [%s, line%04d] ERROR: " format, __func__, __LINE__, ##args)
 #define LOG_AST(format, args...) \
-pr_info("FDVT [%s, line%04d] ASSERT: " format, __func__, __LINE__, ##args)
+pr_debug("FDVT [%s, line%04d] ASSERT: " format, __func__, __LINE__, ##args)
 
 
 void __iomem *IMGSYS_CONFIG_BASE;

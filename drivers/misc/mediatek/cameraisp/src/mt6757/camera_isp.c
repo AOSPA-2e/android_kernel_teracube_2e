@@ -154,21 +154,21 @@
 #define ISP_DEBUG
 #ifdef ISP_DEBUG
 #define LOG_DBG(format, args...) \
-	pr_info(MyTag "[%s] " format, __func__, ##args)
+	pr_debug(MyTag "[%s] " format, __func__, ##args)
 #else
 #define LOG_DBG(format, args...)
 #endif
 
 #define LOG_INF(format, args...) \
-	pr_info(MyTag "[%s] " format, __func__, ##args)
+	pr_debug(MyTag "[%s] " format, __func__, ##args)
 #define LOG_NOTICE(format, args...) \
 	pr_notice(MyTag "[%s] " format, __func__, ##args)
 #define LOG_WRN(format, args...) \
-	pr_info(MyTag "[%s] " format, __func__, ##args)
+	pr_debug(MyTag "[%s] " format, __func__, ##args)
 #define LOG_ERR(format, args...) \
-	pr_info(MyTag "[%s] " format, __func__, ##args)
+	pr_debug(MyTag "[%s] " format, __func__, ##args)
 #define LOG_AST(format, args...) \
-	pr_info(MyTag "[%s] " format, __func__, ##args)
+	pr_debug(MyTag "[%s] " format, __func__, ##args)
 
 /******************************************************************************
  *
@@ -1141,7 +1141,7 @@ static struct SV_LOG_STR gSvLog[ISP_IRQ_TYPE_AMOUNT];
 } while (0)
 #else
 #define IRQ_LOG_KEEPER(irq, ppb, logT, fmt, args...) \
-		pr_info(IRQTag fmt,  ##args)
+		pr_debug(IRQTag fmt,  ##args)
 #endif
 
 #if 1

@@ -2187,7 +2187,7 @@ static kal_uint32 capture(MSDK_SENSOR_EXPOSURE_WINDOW_STRUCT *image_window,
 	spin_lock(&imgsensor_drv_lock);
 	imgsensor.sensor_mode = IMGSENSOR_MODE_CAPTURE;
 	if (imgsensor.current_fps == imgsensor_info.cap.max_framerate) {
-		pr_info("capture30fps: use cap30FPS's setting: %d fps!\n",
+		pr_debug("capture30fps: use cap30FPS's setting: %d fps!\n",
 			imgsensor.current_fps/10);
 		imgsensor.pclk = imgsensor_info.cap.pclk;
 		imgsensor.line_length = imgsensor_info.cap.linelength;
@@ -2196,7 +2196,7 @@ static kal_uint32 capture(MSDK_SENSOR_EXPOSURE_WINDOW_STRUCT *image_window,
 		imgsensor.autoflicker_en = KAL_FALSE;
 	} else
 	if (imgsensor.current_fps == imgsensor_info.cap1.max_framerate) {
-		pr_info("cap115fps: use cap1's setting: %d fps!\n",
+		pr_debug("cap115fps: use cap1's setting: %d fps!\n",
 			imgsensor.current_fps/10);
 		imgsensor.pclk = imgsensor_info.cap1.pclk;
 		imgsensor.line_length = imgsensor_info.cap1.linelength;
@@ -2204,7 +2204,7 @@ static kal_uint32 capture(MSDK_SENSOR_EXPOSURE_WINDOW_STRUCT *image_window,
 		imgsensor.min_frame_length = imgsensor_info.cap1.framelength;
 		imgsensor.autoflicker_en = KAL_FALSE;
 	} else  {
-		pr_info("current_fps %d not support,use cap1\n",
+		pr_debug("current_fps %d not support,use cap1\n",
 				imgsensor.current_fps/10);
 		imgsensor.pclk = imgsensor_info.cap1.pclk;
 		imgsensor.line_length = imgsensor_info.cap1.linelength;

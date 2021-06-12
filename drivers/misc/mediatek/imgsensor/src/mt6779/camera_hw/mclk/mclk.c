@@ -155,7 +155,7 @@ static enum IMGSENSOR_RETURN mclk_set(
 		if (!IS_ERR(ppinctrl_state))
 			pinctrl_select_state(pinst->ppinctrl, ppinctrl_state);
 		else
-			pr_info(
+			pr_debug(
 				"Error: %s : sensor_idx %d pinctrl, PinIdx %d, Val %d, drive current %d\n",
 				__func__,
 				sensor_idx,

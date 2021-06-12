@@ -143,19 +143,19 @@ pr_debug(MyTag "[%s] " format, __func__, ##args)
 #define DIP_DEBUG
 #ifdef DIP_DEBUG
 #define LOG_DBG(format, args...) \
-pr_info(MyTag "[%s] " format, __func__, ##args)
+pr_debug(MyTag "[%s] " format, __func__, ##args)
 #else
 #define LOG_DBG(format, args...)
 #endif
 
 #define LOG_INF(format, args...) \
-pr_info(MyTag "[%s] " format, __func__, ##args)
+pr_debug(MyTag "[%s] " format, __func__, ##args)
 #define LOG_NOTICE(format, args...) \
 pr_notice(MyTag "[%s] " format, __func__, ##args)
 #define LOG_WRN(format, args...) \
-pr_info(MyTag "[%s] " format, __func__, ##args)
+pr_debug(MyTag "[%s] " format, __func__, ##args)
 #define LOG_ERR(format, args...) \
-pr_info(MyTag "[%s] " format, __func__, ##args)
+pr_debug(MyTag "[%s] " format, __func__, ##args)
 #define LOG_AST(format, args...) \
 pr_debug(MyTag "[%s] " format, __func__, ##args)
 
@@ -5111,7 +5111,7 @@ enum m4u_callback_ret_t ISP_M4U_TranslationFault_callback(int port,
 #endif
 {
 
-	pr_info("[ISP_M4U]fault call port=%d, mva=0x%x", port, mva);
+	pr_debug("[ISP_M4U]fault call port=%d, mva=0x%x", port, mva);
 
 	switch (port) {
 	case M4U_PORT_IMGI_D1:
@@ -5127,44 +5127,44 @@ enum m4u_callback_ret_t ISP_M4U_TranslationFault_callback(int port,
 	case M4U_PORT_VIPI_D1:
 	case M4U_PORT_TIMGO_D1:
 	default:  //DIP_A_BASE = 0x15021000
-		pr_info("imgi:0x%08x, imgbi:0x%08x, imgci:0x%08x, vipi:0x%08x, vipbi:0x%08x, vipci:0x%08x\n",
+		pr_debug("imgi:0x%08x, imgbi:0x%08x, imgci:0x%08x, vipi:0x%08x, vipbi:0x%08x, vipci:0x%08x\n",
 			DIP_RD32(DIP_A_BASE + 0x100),
 			DIP_RD32(DIP_A_BASE + 0x200),
 			DIP_RD32(DIP_A_BASE + 0x230),
 			DIP_RD32(DIP_A_BASE + 0x700),
 			DIP_RD32(DIP_A_BASE + 0x730),
 			DIP_RD32(DIP_A_BASE + 0x760));
-		pr_info("TDRI:0x%08x, CQ0_EN(0x%08x)_BA(0x%08x),C Q1_EN(0x%08x)_BA(0x%08x), ufdi:0x%08x\n",
+		pr_debug("TDRI:0x%08x, CQ0_EN(0x%08x)_BA(0x%08x),C Q1_EN(0x%08x)_BA(0x%08x), ufdi:0x%08x\n",
 			DIP_RD32(DIP_A_BASE + 0x004),
 			DIP_RD32(DIP_A_BASE + 0x1204),
 			DIP_RD32(DIP_A_BASE + 0x1208),
 			DIP_RD32(DIP_A_BASE + 0x121c),
 			DIP_RD32(DIP_A_BASE + 0x1220),
 			DIP_RD32(DIP_A_BASE + 0x130));
-		pr_info("smti_d1:0x%08x, smto_d1:0x%08x, timgo:0x%08x, smti_d4:0x%08x, smto_d4:0x%08x,\n",
+		pr_debug("smti_d1:0x%08x, smto_d1:0x%08x, timgo:0x%08x, smti_d4:0x%08x, smto_d4:0x%08x,\n",
 			DIP_RD32(DIP_A_BASE + 0x160),
 			DIP_RD32(DIP_A_BASE + 0x190),
 			DIP_RD32(DIP_A_BASE + 0x260),
 			DIP_RD32(DIP_A_BASE + 0x2d0),
 			DIP_RD32(DIP_A_BASE + 0x300));
-		pr_info("dmgi:0x%08x, depi:0x%08x, lcei:0x%08x, decso:0x%08x, smti_d2:0x%08x,\n",
+		pr_debug("dmgi:0x%08x, depi:0x%08x, lcei:0x%08x, decso:0x%08x, smti_d2:0x%08x,\n",
 			DIP_RD32(DIP_A_BASE + 0x370),
 			DIP_RD32(DIP_A_BASE + 0x3a0),
 			DIP_RD32(DIP_A_BASE + 0x3d0),
 			DIP_RD32(DIP_A_BASE + 0x400),
 			DIP_RD32(DIP_A_BASE + 0x470));
-		pr_info("smto_d2:0x%08x, smti_d3:0x%08x, smto_d3:0x%08x, crzo:0x%08x, crzbo:0x%08x,\n",
+		pr_debug("smto_d2:0x%08x, smti_d3:0x%08x, smto_d3:0x%08x, crzo:0x%08x, crzbo:0x%08x,\n",
 			DIP_RD32(DIP_A_BASE + 0x4a0),
 			DIP_RD32(DIP_A_BASE + 0x510),
 			DIP_RD32(DIP_A_BASE + 0x540),
 			DIP_RD32(DIP_A_BASE + 0x5b0),
 			DIP_RD32(DIP_A_BASE + 0x620));
-		pr_info("feo:0x%08x, img3o:0x%08x, img3bo:0x%08x, img3co:0x%08x\n",
+		pr_debug("feo:0x%08x, img3o:0x%08x, img3bo:0x%08x, img3co:0x%08x\n",
 			DIP_RD32(DIP_A_BASE + 0x690),
 			DIP_RD32(DIP_A_BASE + 0x790),
 			DIP_RD32(DIP_A_BASE + 0x800),
 			DIP_RD32(DIP_A_BASE + 0x870));
-		pr_info("start: 0x%08x, top: 0x%08x, 0x%08x, 0x%08x, 0x%08x, 0x%08x, 0x%08x)\n",
+		pr_debug("start: 0x%08x, top: 0x%08x, 0x%08x, 0x%08x, 0x%08x, 0x%08x, 0x%08x)\n",
 			DIP_RD32(DIP_A_BASE + 0x1000),
 			DIP_RD32(DIP_A_BASE + 0x1010),
 			DIP_RD32(DIP_A_BASE + 0x1014),

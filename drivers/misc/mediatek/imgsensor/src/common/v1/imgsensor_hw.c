@@ -83,7 +83,7 @@ enum IMGSENSOR_RETURN imgsensor_hw_init(struct IMGSENSOR_HW *phw)
 			of_node,
 			str_prop_name,
 			&phw->enable_sensor_by_index[i]) < 0) {
-			pr_info("Property cust-sensor not defined\n");
+			pr_debug("Property cust-sensor not defined\n");
 			phw->enable_sensor_by_index[i] = NULL;
 		}
 	}
@@ -186,7 +186,7 @@ enum IMGSENSOR_RETURN imgsensor_hw_power(
 	enum IMGSENSOR_SENSOR_IDX sensor_idx = psensor->inst.sensor_idx;
 	char str_index[LENGTH_FOR_SNPRINTF];
 
-	pr_info(
+	pr_debug(
 		"sensor_idx %d, power %d curr_sensor_name %s, enable list %s\n",
 		sensor_idx,
 		pwr_status,

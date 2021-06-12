@@ -60,7 +60,7 @@ static enum IMGSENSOR_RETURN regulator_init(void *pinstance)
 		"mediatek,camera_hw");
 
 	if (pdevice->of_node == NULL) {
-		pr_info("Error: regulator get cust camera node failed!\n");
+		pr_debug("Error: regulator get cust camera node failed!\n");
 		pdevice->of_node = pof_node;
 		return IMGSENSOR_RETURN_ERROR;
 	}
@@ -69,7 +69,7 @@ static enum IMGSENSOR_RETURN regulator_init(void *pinstance)
 		preg->pregulator[i] = regulator_get(pdevice,
 			pregulator_ctrl->pregulator_type);
 		if (preg->pregulator[i] == NULL)
-			pr_info("Error: regulator[%d]  %s fail!\n",
+			pr_debug("Error: regulator[%d]  %s fail!\n",
 				i, pregulator_ctrl->pregulator_type);
 		atomic_set(&preg->enable_cnt[i], 0);
 	}
@@ -133,7 +133,7 @@ static enum IMGSENSOR_RETURN regulator_set(
 				IMGSENSOR_HW_PIN_STATE_LEVEL_0])) {
 #define ERR_STR1 "Error: [regulator]fail to regulator_set_voltage,"
 #define ERR_STR2 " powertype:%d powerId:%d\n"
-			pr_info(ERR_STR1 ERR_STR2,
+			pr_debug(ERR_STR1 ERR_STR2,
 				pin,
 				regulator_voltage[pin_state -
 					IMGSENSOR_HW_PIN_STATE_LEVEL_0]);
@@ -143,7 +143,7 @@ static enum IMGSENSOR_RETURN regulator_set(
 		if (regulator_enable(pregulator)) {
 #define ERR_STR1 "Error: [regulator]fail to regulator_enable,"
 #define ERR_STR2 " powertype:%d powerId:%d\n"
-			pr_info(ERR_STR1 ERR_STR2,
+			pr_debug(ERR_STR1 ERR_STR2,
 				pin,
 				regulator_voltage[pin_state -
 					IMGSENSOR_HW_PIN_STATE_LEVEL_0]);
@@ -158,7 +158,7 @@ static enum IMGSENSOR_RETURN regulator_set(
 
 		if (regulator_disable(pregulator)) {
 #define ERR_STR "Error: [regulator]fail to regulator_disable, powertype: %d\n"
-			pr_info(ERR_STR, pin);
+			pr_debug(ERR_STR, pin);
 #undef ERR_STR
 			return IMGSENSOR_RETURN_ERROR;
 		}

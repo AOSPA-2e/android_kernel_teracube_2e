@@ -768,7 +768,7 @@ static kal_uint16 read_otp_module_id(void)
 	AFRegulatorCtrl(0);
 	AFRegulatorCtrl(1);
 	iReadRegI2C(pu_send_cmd, 2, (u8 *) &get_byte, 1, EEPROM_WRITE_ID);
-	pr_info("read_otp_module_id1: 0x%x \n",get_byte);
+	pr_debug("read_otp_module_id1: 0x%x \n",get_byte);
 
 	return get_byte;
 }

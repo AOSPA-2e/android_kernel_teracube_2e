@@ -297,7 +297,7 @@ static enum IMGSENSOR_RETURN regulator_set(
 						REGULATOR_VOLTAGE_1200)
 						/1000)/10;
 
-					pr_info("set vdram to %dmV with pmic\n",
+					pr_debug("set vdram to %dmV with pmic\n",
 						voltage/1000);
 					mt6357_upmu_set_tma_key(40104);
 					if (mt6357_upmu_set_rg_vdram_vosel_1
@@ -306,7 +306,7 @@ static enum IMGSENSOR_RETURN regulator_set(
 					if (mt6357_upmu_set_rg_vdram_vocal_1
 						(regcode))
 						pr_debug("[regulator]fail to mt6357_upmu_set_rg_vdram_vocal.\n");
-					pr_info("set vdram ok for gc8034!\n");
+					pr_debug("set vdram ok for gc8034!\n");
 
 				} else if (strcmp(pregulator->rdev->desc->name,
 					"vcamd") == 0) {
@@ -315,7 +315,7 @@ static enum IMGSENSOR_RETURN regulator_set(
 						REGULATOR_VOLTAGE_1200)
 						/1000)/10;
 
-					pr_info("set vcamd to %dmV with pmic\n",
+					pr_debug("set vcamd to %dmV with pmic\n",
 						voltage/1000);
 					if (regcode &&
 						mt6357_upmu_set_rg_vcamd_vocal
@@ -338,12 +338,12 @@ static enum IMGSENSOR_RETURN regulator_set(
 				/*pr_debug("[regulator]%d is enabled\n", pin);*/
 				if (strcmp(pregulator->rdev->desc->name,
 					"vdram") == 0) {
-					pr_info("set vdram cal to clear\n");
+					pr_debug("set vdram cal to clear\n");
 					if (mt6357_upmu_set_rg_ldo_vdram_en(0))
 						pr_debug("[regulator]fail to mt6357_upmu_set_rg_ldo_vdram_en.\n");
 				} else if (strcmp(pregulator->rdev->desc->name,
 				"vcamd") == 0) {
-					pr_info("set vcamd cal to clear\n");
+					pr_debug("set vcamd cal to clear\n");
 					if (mt6357_upmu_set_rg_vcamd_vocal(0))
 						pr_debug("[regulator]fail to mt6357_upmu_set_rg_vcamd_vocal.\n");
 				}

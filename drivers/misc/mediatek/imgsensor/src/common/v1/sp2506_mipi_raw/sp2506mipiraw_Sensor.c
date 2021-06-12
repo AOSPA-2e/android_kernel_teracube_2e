@@ -36,7 +36,7 @@
 
 /****************************Modify Following Strings for Debug****************************/
 #define PFX "sp2506_camera_primax"
-#define LOG_INF_LOD(format, args...)    pr_info(PFX "[%s] " format, __func__, ##args)
+#define LOG_INF_LOD(format, args...)    pr_debug(PFX "[%s] " format, __func__, ##args)
 #define LOG_1 LOG_INF("sp2506,MIPI 4LANE\n")
 #define SENSORDB LOG_INF
 /****************************   Modify end    *******************************************/

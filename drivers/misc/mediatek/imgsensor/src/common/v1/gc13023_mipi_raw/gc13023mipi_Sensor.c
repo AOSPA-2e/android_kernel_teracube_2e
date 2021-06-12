@@ -41,7 +41,7 @@
 
 /****************************Modify Following Strings for Debug****************************/
 #define PFX "GC13023MIPI"
-#define LOG_1 pr_info("GC13023MIPI, 4LANE\n")
+#define LOG_1 pr_debug("GC13023MIPI, 4LANE\n")
 /****************************   Modify end    *******************************************/
 #undef GC13023_DEBUG
 #if defined(GC13023_DEBUG)

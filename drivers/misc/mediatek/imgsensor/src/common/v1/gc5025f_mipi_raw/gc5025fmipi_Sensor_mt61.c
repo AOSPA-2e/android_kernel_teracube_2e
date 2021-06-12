@@ -39,10 +39,10 @@
 #else
 /****************************Modify Following Strings for Debug****************************/
 //#define PFX "GC5025F_camera_sensor"
-#define LOG_1 pr_info("GC5025F,MIPI 2LANE\n")
+#define LOG_1 pr_debug("GC5025F,MIPI 2LANE\n")
 /****************************   Modify end    *******************************************/
 
-//#define pr_info(format, args...)    pr_debug(PFX "[%s] " format, __FUNCTION__, ##args)
+//#define pr_debug(format, args...)    pr_debug(PFX "[%s] " format, __FUNCTION__, ##args)
 
 #if defined(YK673_CUSTOMER_TRX_HD640) //xjl 20190617
 #undef IMAGE_NORMAL_MIRROR
@@ -368,20 +368,20 @@ static void gc5025_gcore_read_otp_info(void)
 	/*TODO*/
 	gc5025_select_page_otp(otp_page0);
 	flagdd = gc5025_read_otp(0x00);
-	pr_info("GC5025_OTP_DD : flag_dd = 0x%x\n",flagdd);
+	pr_debug("GC5025_OTP_DD : flag_dd = 0x%x\n",flagdd);
 	flag_chipversion= gc5025_read_otp(0x7f);
 
 	//DD
 	switch(flagdd&0x03)
 	{
 	case 0x00:
-		pr_info("GC5025_OTP_DD is Empty !!\n");
+		pr_debug("GC5025_OTP_DD is Empty !!\n");
 		gc5025_otp_info.dd_flag = 0x00;
 		break;
 	case 0x01:	
-		pr_info("GC5025_OTP_DD is Valid!!\n");
+		pr_debug("GC5025_OTP_DD is Valid!!\n");
 		total_number = gc5025_read_otp(0x01) + gc5025_read_otp(0x02);
-		pr_info("GC5025_OTP : total_number = %d\n",total_number);
+		pr_debug("GC5025_OTP : total_number = %d\n",total_number);
 		
 		if (total_number <= 31)
 		{
@@ -404,16 +404,16 @@ static void gc5025_gcore_read_otp_info(void)
 		}
 		if((check % 255 + 1) == ddchecksum)
 		{
-			pr_info("GC5025_OTP_DD : DD check sum correct! checksum = 0x%x\n", ddchecksum);
+			pr_debug("GC5025_OTP_DD : DD check sum correct! checksum = 0x%x\n", ddchecksum);
 		}
 		else
 		{
-			pr_info("GC5025_OTP_DD : DD check sum error! otpchecksum = 0x%x, sum = 0x%x\n", ddchecksum, (check % 255 + 1));
+			pr_debug("GC5025_OTP_DD : DD check sum error! otpchecksum = 0x%x, sum = 0x%x\n", ddchecksum, (check % 255 + 1));
 		}
 
 		for(i=0; i<total_number; i++)
 		{
-			pr_info("GC5025_OTP_DD:index = %d, data[0] = %x , data[1] = %x , data[2] = %x ,data[3] = %x \n",\
+			pr_debug("GC5025_OTP_DD:index = %d, data[0] = %x , data[1] = %x , data[2] = %x ,data[3] = %x \n",\
 				i, ddtempbuff[4 * i], ddtempbuff[4 * i + 1], ddtempbuff[4 * i + 2], ddtempbuff[4 * i + 3]);
 			
 			if (ddtempbuff[4 * i + 3] & 0x10)
@@ -445,7 +445,7 @@ static void gc5025_gcore_read_otp_info(void)
 			}
 			else
 			{
-				pr_info("GC5025_OTP_DD:check_id[%d] = %x,checkid error!!\n", i, ddtempbuff[4 * i + 3] & 0xf0);
+				pr_debug("GC5025_OTP_DD:check_id[%d] = %x,checkid error!!\n", i, ddtempbuff[4 * i + 3] & 0xf0);
 			}
 		}
 
@@ -454,7 +454,7 @@ static void gc5025_gcore_read_otp_info(void)
 		break;
 	case 0x02:
 	case 0x03:	
-		pr_info("GC5025_OTP_DD is Invalid !!\n");
+		pr_debug("GC5025_OTP_DD is Invalid !!\n");
 		gc5025_otp_info.dd_flag = 0x02;
 		break;
 	default :
@@ -462,27 +462,27 @@ static void gc5025_gcore_read_otp_info(void)
 	}
 
 /*For Chip Version*/
-	pr_info("GC5025_OTP_CHIPVESION : flag_chipversion = 0x%x\n",flag_chipversion);
+	pr_debug("GC5025_OTP_CHIPVESION : flag_chipversion = 0x%x\n",flag_chipversion);
 
 	switch((flag_chipversion>>4)&0x03)
 	{
 	case 0x00:
-		pr_info("GC5025_OTP_CHIPVERSION is Empty !!\n");
+		pr_debug("GC5025_OTP_CHIPVERSION is Empty !!\n");
 		break;
 	case 0x01:
-		pr_info("GC5025_OTP_CHIPVERSION is Valid !!\n");
+		pr_debug("GC5025_OTP_CHIPVERSION is Valid !!\n");
 		gc5025_select_page_otp(otp_page1);		
 		i = 0;
 		do{
 			gc5025_otp_info.reg_addr[i] = gc5025_read_otp(REG_ROM_START + i*2 ) ;
 			gc5025_otp_info.reg_value[i] = gc5025_read_otp(REG_ROM_START + i*2 + 1 ) ;
-			pr_info("GC5025_OTP_CHIPVERSION reg_addr[%d] = 0x%x,reg_value[%d] = 0x%x\n",i,gc5025_otp_info.reg_addr[i],i,gc5025_otp_info.reg_value[i]);			
+			pr_debug("GC5025_OTP_CHIPVERSION reg_addr[%d] = 0x%x,reg_value[%d] = 0x%x\n",i,gc5025_otp_info.reg_addr[i],i,gc5025_otp_info.reg_value[i]);			
 			i++;			
 		}while((gc5025_otp_info.reg_addr[i-1]!=0)&&(i<10));
 		gc5025_otp_info.reg_num = i - 1;
 		break;
 	case 0x02:
-		pr_info("GC5025_OTP_CHIPVERSION is Invalid !!\n");
+		pr_debug("GC5025_OTP_CHIPVERSION is Invalid !!\n");
 		break;
 	default :
 		break;
@@ -492,7 +492,7 @@ static void gc5025_gcore_read_otp_info(void)
 	gc5025_select_page_otp(otp_page1);
 	flag1 = gc5025_read_otp(0x00);
 	flag_golden = gc5025_read_otp(0x1b);
-	pr_info("GC5025_OTP : flag1 = 0x%x , flag_golden = 0x%x\n",flag1,flag_golden);
+	pr_debug("GC5025_OTP : flag1 = 0x%x , flag_golden = 0x%x\n",flag1,flag_golden);
 	
 //INFO&WB
 	for(index=0;index<2;index++)
@@ -500,10 +500,10 @@ static void gc5025_gcore_read_otp_info(void)
 		switch((flag1>>(4 + 2 * index))&0x03)
 		{
 		case 0x00:
-			pr_info("GC5025_OTP_INFO group %d is Empty !!\n", index + 1);
+			pr_debug("GC5025_OTP_INFO group %d is Empty !!\n", index + 1);
 			break;
 		case 0x01:
-			pr_info("GC5025_OTP_INFO group %d is Valid !!\n", index + 1);
+			pr_debug("GC5025_OTP_INFO group %d is Valid !!\n", index + 1);
 			check = 0;
 			gc5025_read_otp_group(INFO_ROM_START + index * INFO_WIDTH, &info[0], INFO_WIDTH);
 			for (i = 0; i < INFO_WIDTH - 1; i++)
@@ -522,12 +522,12 @@ static void gc5025_gcore_read_otp_info(void)
 			}
 			else
 			{
-				pr_info("GC5025_OTP_INFO Check sum %d Error !!\n", index + 1);
+				pr_debug("GC5025_OTP_INFO Check sum %d Error !!\n", index + 1);
 			}
 			break;
 		case 0x02:
 		case 0x03:	
-			pr_info("GC5025_OTP_INFO group %d is Invalid !!\n", index + 1);
+			pr_debug("GC5025_OTP_INFO group %d is Invalid !!\n", index + 1);
 			break;
 		default :
 			break;
@@ -536,11 +536,11 @@ static void gc5025_gcore_read_otp_info(void)
 		switch((flag1>>(2 * index))&0x03)
 		{
 		case 0x00:
-			pr_info("GC5025_OTP_WB group %d is Empty !!\n", index + 1);
+			pr_debug("GC5025_OTP_WB group %d is Empty !!\n", index + 1);
 			gc5025_otp_info.wb_flag = gc5025_otp_info.wb_flag|0x00;
 			break;
 		case 0x01:
-			pr_info("GC5025_OTP_WB group %d is Valid !!\n", index + 1);	
+			pr_debug("GC5025_OTP_WB group %d is Valid !!\n", index + 1);	
 			check = 0;
 			gc5025_read_otp_group(WB_ROM_START + index * WB_WIDTH, &wb[0], WB_WIDTH);
 			for (i = 0; i < WB_WIDTH - 1; i++)
@@ -555,12 +555,12 @@ static void gc5025_gcore_read_otp_info(void)
 			}
 			else
 			{
-				pr_info("GC5025_OTP_WB Check sum %d Error !!\n", index + 1);
+				pr_debug("GC5025_OTP_WB Check sum %d Error !!\n", index + 1);
 			}
 			break;
 		case 0x02:
 		case 0x03:	
-			pr_info("GC5025_OTP_WB group %d is Invalid !!\n", index + 1);			
+			pr_debug("GC5025_OTP_WB group %d is Invalid !!\n", index + 1);			
 			gc5025_otp_info.wb_flag = gc5025_otp_info.wb_flag|0x02;
 			break;
 		default :
@@ -570,11 +570,11 @@ static void gc5025_gcore_read_otp_info(void)
 		switch((flag_golden>>(2 * index))&0x03)
 		{
 		case 0x00:
-			pr_info("GC5025_OTP_GOLDEN group %d is Empty !!\n", index + 1);
+			pr_debug("GC5025_OTP_GOLDEN group %d is Empty !!\n", index + 1);
 			gc5025_otp_info.golden_flag = gc5025_otp_info.golden_flag|0x00;					
 			break;
 		case 0x01:
-			pr_info("GC5025_OTP_GOLDEN group %d is Valid !!\n", index + 1);						
+			pr_debug("GC5025_OTP_GOLDEN group %d is Valid !!\n", index + 1);						
 			check = 0;
 			gc5025_read_otp_group(GOLDEN_ROM_START + index * GOLDEN_WIDTH, &golden[0], GOLDEN_WIDTH);
 			for (i = 0; i < GOLDEN_WIDTH - 1; i++)
@@ -589,12 +589,12 @@ static void gc5025_gcore_read_otp_info(void)
 			}
 			else
 			{
-				pr_info("GC5025_OTP_GOLDEN Check sum %d Error !!\n", index + 1);
+				pr_debug("GC5025_OTP_GOLDEN Check sum %d Error !!\n", index + 1);
 			}
 			break;
 		case 0x02:
 		case 0x03:	
-			pr_info("GC5025_OTP_GOLDEN group %d is Invalid !!\n", index + 1);	
+			pr_debug("GC5025_OTP_GOLDEN group %d is Invalid !!\n", index + 1);	
 			gc5025_otp_info.golden_flag = gc5025_otp_info.golden_flag|0x02;			
 			break;
 		default :
@@ -603,15 +603,15 @@ static void gc5025_gcore_read_otp_info(void)
 	}
 
 	/*print otp information*/
-	pr_info("GC5025_OTP_INFO:module_id=0x%x\n",gc5025_otp_info.module_id);
-	pr_info("GC5025_OTP_INFO:lens_id=0x%x\n",gc5025_otp_info.lens_id);
-	pr_info("GC5025_OTP_INFO:vcm_id=0x%x\n",gc5025_otp_info.vcm_id);
-	pr_info("GC5025_OTP_INFO:vcm_driver_id=0x%x\n",gc5025_otp_info.vcm_driver_id);
-	pr_info("GC5025_OTP_INFO:data=%d-%d-%d\n",gc5025_otp_info.year,gc5025_otp_info.month,gc5025_otp_info.day);
-	pr_info("GC5025_OTP_WB:r/g=0x%x\n",gc5025_otp_info.rg_gain);
-	pr_info("GC5025_OTP_WB:b/g=0x%x\n",gc5025_otp_info.bg_gain);
-	pr_info("GC5025_OTP_GOLDEN:golden_rg=0x%x\n",gc5025_otp_info.golden_rg);
-	pr_info("GC5025_OTP_GOLDEN:golden_bg=0x%x\n",gc5025_otp_info.golden_bg);	
+	pr_debug("GC5025_OTP_INFO:module_id=0x%x\n",gc5025_otp_info.module_id);
+	pr_debug("GC5025_OTP_INFO:lens_id=0x%x\n",gc5025_otp_info.lens_id);
+	pr_debug("GC5025_OTP_INFO:vcm_id=0x%x\n",gc5025_otp_info.vcm_id);
+	pr_debug("GC5025_OTP_INFO:vcm_driver_id=0x%x\n",gc5025_otp_info.vcm_driver_id);
+	pr_debug("GC5025_OTP_INFO:data=%d-%d-%d\n",gc5025_otp_info.year,gc5025_otp_info.month,gc5025_otp_info.day);
+	pr_debug("GC5025_OTP_WB:r/g=0x%x\n",gc5025_otp_info.rg_gain);
+	pr_debug("GC5025_OTP_WB:b/g=0x%x\n",gc5025_otp_info.bg_gain);
+	pr_debug("GC5025_OTP_GOLDEN:golden_rg=0x%x\n",gc5025_otp_info.golden_rg);
+	pr_debug("GC5025_OTP_GOLDEN:golden_bg=0x%x\n",gc5025_otp_info.golden_bg);	
 #endif
 	
 	
@@ -719,8 +719,8 @@ static void gc5025_gcore_update_dd(void)
 			else
 				write_cmos_sensor(0xac,gc5025_otp_info.dd_param_type[i]);
 			
-			pr_info("GC5025_OTP_GC val0 = 0x%x , val1 = 0x%x , val2 = 0x%x \n",temp_val0,temp_val1,temp_val2);
-			pr_info("GC5025_OTP_GC x = %d , y = %d \n",((temp_val1&0x0f)<<8) + temp_val0,(temp_val2<<4) + ((temp_val1&0xf0)>>4));	
+			pr_debug("GC5025_OTP_GC val0 = 0x%x , val1 = 0x%x , val2 = 0x%x \n",temp_val0,temp_val1,temp_val2);
+			pr_debug("GC5025_OTP_GC x = %d , y = %d \n",((temp_val1&0x0f)<<8) + temp_val0,(temp_val2<<4) + ((temp_val1&0xf0)>>4));	
 		}
 
 		write_cmos_sensor(0xbe,0x01);
@@ -749,7 +749,7 @@ static void gc5025_gcore_update_wb(void)
 	{
 		rg_typical=gc5025_otp_info.golden_rg;
 		bg_typical=gc5025_otp_info.golden_bg;
-		pr_info("GC5025_OTP_UPDATE_AWB:rg_typical = 0x%x , bg_typical = 0x%x\n",rg_typical,bg_typical);		
+		pr_debug("GC5025_OTP_UPDATE_AWB:rg_typical = 0x%x , bg_typical = 0x%x\n",rg_typical,bg_typical);		
 	}
 
 	if(0x01==(gc5025_otp_info.wb_flag&0x01))
@@ -760,12 +760,12 @@ static void gc5025_gcore_update_wb(void)
 
 		base_gain = (r_gain_current<b_gain_current) ? r_gain_current : b_gain_current;
 		base_gain = (base_gain<g_gain_current) ? base_gain : g_gain_current;
-		pr_info("GC5025_OTP_UPDATE_AWB:r_gain_current = 0x%x , b_gain_current = 0x%x , base_gain = 0x%x \n",r_gain_current,b_gain_current,base_gain);
+		pr_debug("GC5025_OTP_UPDATE_AWB:r_gain_current = 0x%x , b_gain_current = 0x%x , base_gain = 0x%x \n",r_gain_current,b_gain_current,base_gain);
 
 		r_gain = 0x400 * r_gain_current / base_gain;
 		g_gain = 0x400 * g_gain_current / base_gain;
 		b_gain = 0x400 * b_gain_current / base_gain;
-		pr_info("GC5025_OTP_UPDATE_AWB:r_gain = 0x%x , g_gain = 0x%x , b_gain = 0x%x \n",r_gain,g_gain,b_gain);
+		pr_debug("GC5025_OTP_UPDATE_AWB:r_gain = 0x%x , g_gain = 0x%x , b_gain = 0x%x \n",r_gain,g_gain,b_gain);
 
 		/*TODO*/
 		write_cmos_sensor(0xfe,0x00);
@@ -785,14 +785,14 @@ static void gc5025_gcore_update_chipversion(void)
 {
 	kal_uint8 i; 
 
-	pr_info("GC5025_OTP_UPDATE_CHIPVERSION:reg_num = %d\n",gc5025_otp_info.reg_num);
+	pr_debug("GC5025_OTP_UPDATE_CHIPVERSION:reg_num = %d\n",gc5025_otp_info.reg_num);
 
 	write_cmos_sensor(0xfe,0x00);
 
 	for(i=0;i<gc5025_otp_info.reg_num;i++) 
 	{
 		write_cmos_sensor(gc5025_otp_info.reg_addr[i] ,gc5025_otp_info.reg_value[i]);
-		pr_info("GC5025_OTP_UPDATE_CHIP_VERSION:{0x%x,0x%x}!!\n",gc5025_otp_info.reg_addr[i],gc5025_otp_info.reg_value[i]);		
+		pr_debug("GC5025_OTP_UPDATE_CHIP_VERSION:{0x%x,0x%x}!!\n",gc5025_otp_info.reg_addr[i],gc5025_otp_info.reg_value[i]);		
 	}
 
 	write_cmos_sensor(0xfe,0x00);	
@@ -822,7 +822,7 @@ static void gc5025_gcore_enable_otp(otp_state state)
 		write_cmos_sensor(0xfa,otp_clk);	// 0xfa[6]:OTP_CLK_en
 		write_cmos_sensor(0xd4,otp_en);	// 0xd4[7]:OTP_en	
 	
-		pr_info("GC5025_OTP: Enable OTP!\n");		
+		pr_debug("GC5025_OTP: Enable OTP!\n");		
 	}
 	else			
 	{
@@ -832,7 +832,7 @@ static void gc5025_gcore_enable_otp(otp_state state)
 		write_cmos_sensor(0xd4,otp_en);
 		write_cmos_sensor(0xfa,otp_clk);
 
-		pr_info("GC5025_OTP: Disable OTP!\n");
+		pr_debug("GC5025_OTP: Disable OTP!\n");
 	}
 
 }
@@ -873,16 +873,16 @@ static int gc5025_gcore_check_version(void)
     flag_GC5025A = gc5025_read_otp(0x27);
 
 	if((flag_GC5025A & 0x01) == 0x01) {
-		pr_info("GC5025A sensor! \n");
+		pr_debug("GC5025A sensor! \n");
 		DR_State = KAL_FALSE;
     }
 	else { 
 		if((flag_doublereset & 0x03)==0x01) {
 			DR_State = KAL_FALSE;
-			pr_info("GC5025 sensor double reset off \n");
+			pr_debug("GC5025 sensor double reset off \n");
 		} else {
 			DR_State = KAL_TRUE;
-			pr_info("GC5025 sensor double reset on \n");
+			pr_debug("GC5025 sensor double reset on \n");
 		}
     }
 
@@ -1007,7 +1007,7 @@ static void set_shutter(kal_uint16 shutter)
 	write_cmos_sensor(0x03, (cal_shutter>>8) & 0x3F);
 	write_cmos_sensor(0x04,cal_shutter & 0xFF);
 
-    pr_info("Exit! shutter =%d, framelength =%d\n", shutter,imgsensor.frame_length);
+    pr_debug("Exit! shutter =%d, framelength =%d\n", shutter,imgsensor.frame_length);
 
 }    /*    set_shutter */
 
@@ -1058,7 +1058,7 @@ static kal_uint16 set_gain(kal_uint16 gain)
 		temp = iReg*Dgain_ratio/256;
 		write_cmos_sensor(0xb1, temp>>6);
 		write_cmos_sensor(0xb2, (temp<<2)&0xfc);
-		pr_info("GC5025MIPI analogic gain 1x, GC5025MIPI add pregain = %d\n",temp);
+		pr_debug("GC5025MIPI analogic gain 1x, GC5025MIPI add pregain = %d\n",temp);
 	}
 	else 
 	{
@@ -1068,7 +1068,7 @@ static kal_uint16 set_gain(kal_uint16 gain)
 		temp = temp*Dgain_ratio/256;
 		write_cmos_sensor(0xb1, temp>>6);
 		write_cmos_sensor(0xb2, (temp<<2)&0xfc);
-		pr_info("GC5025MIPI analogic gain 1.4x, GC5025MIPI add pregain = %d\n",temp);		
+		pr_debug("GC5025MIPI analogic gain 1.4x, GC5025MIPI add pregain = %d\n",temp);		
 	}
 	
 	return gain;
@@ -1077,7 +1077,7 @@ static kal_uint16 set_gain(kal_uint16 gain)
 
 static void ihdr_write_shutter_gain(kal_uint16 le, kal_uint16 se, kal_uint16 gain)
 {
-    pr_info("le:0x%x, se:0x%x, gain:0x%x\n",le,se,gain);
+    pr_debug("le:0x%x, se:0x%x, gain:0x%x\n",le,se,gain);
 
 }
 
@@ -1085,7 +1085,7 @@ static void ihdr_write_shutter_gain(kal_uint16 le, kal_uint16 se, kal_uint16 gai
 /*
 static void set_mirror_flip(kal_uint8 image_mirror)
 {
-	pr_info("image_mirror = %d\n", image_mirror);
+	pr_debug("image_mirror = %d\n", image_mirror);
 
 }
 */
@@ -1113,7 +1113,7 @@ static void night_mode(kal_bool enable)
 
 static void sensor_init(void)
 {
-	pr_info("E");
+	pr_debug("E");
 	/*SYS*/
 	write_cmos_sensor(0xfe, 0x00);
 	write_cmos_sensor(0xfe, 0x00);
@@ -1261,32 +1261,32 @@ static void sensor_init(void)
 
 static void preview_setting(void)
 {
-	pr_info("E!\n");	
+	pr_debug("E!\n");	
 }    /*    preview_setting  */
 
 static void capture_setting(kal_uint16 currefps)
 {
-	pr_info("E! currefps:%d\n",currefps);
+	pr_debug("E! currefps:%d\n",currefps);
 }
 
 static void normal_video_setting(kal_uint16 currefps)
 {
-	pr_info("E! currefps:%d\n",currefps);	
+	pr_debug("E! currefps:%d\n",currefps);	
 }
 
 static void hs_video_setting(void)
 {
-   	pr_info("E\n");
+   	pr_debug("E\n");
 }
 
 static void slim_video_setting(void)
 {
-    pr_info("E\n");
+    pr_debug("E\n");
 }
 
 static kal_uint32 set_test_pattern_mode(kal_bool enable)
 {
-    pr_info("enable: %d\n", enable);
+    pr_debug("enable: %d\n", enable);
 
     if (enable) {
         write_cmos_sensor(0xfe, 0x00);
@@ -1337,10 +1337,10 @@ static kal_uint32 get_imgsensor_id(UINT32 *sensor_id)
             	   *sensor_id = GC5025FMIPI_SENSOR_ID;
 
             	if (*sensor_id == imgsensor_info.sensor_id) {
-                	pr_info("i2c write id: 0x%x, sensor id: 0x%x\n", imgsensor.i2c_write_id,*sensor_id);
+                	pr_debug("i2c write id: 0x%x, sensor id: 0x%x\n", imgsensor.i2c_write_id,*sensor_id);
                 	return ERROR_NONE;
             	}
-            	pr_info("Read sensor id fail, write id: 0x%x, id: 0x%x\n", imgsensor.i2c_write_id,*sensor_id);
+            	pr_debug("Read sensor id fail, write id: 0x%x, id: 0x%x\n", imgsensor.i2c_write_id,*sensor_id);
             	retry--;
         	} while(retry > 0);
         	i++;
@@ -1392,10 +1392,10 @@ static kal_uint32 open(void)
                sensor_id = GC5025FMIPI_SENSOR_ID;
 
             if (sensor_id == imgsensor_info.sensor_id) {
-                pr_info("i2c write id: 0x%x, sensor id: 0x%x\n", imgsensor.i2c_write_id,sensor_id);
+                pr_debug("i2c write id: 0x%x, sensor id: 0x%x\n", imgsensor.i2c_write_id,sensor_id);
                 break;
             }
-            pr_info("Read sensor id fail, write id: 0x%x, id: 0x%x\n", imgsensor.i2c_write_id,sensor_id);
+            pr_debug("Read sensor id fail, write id: 0x%x, id: 0x%x\n", imgsensor.i2c_write_id,sensor_id);
             retry--;
         } while(retry > 0);
         i++;
@@ -1456,7 +1456,7 @@ static kal_uint32 open(void)
 *************************************************************************/
 static kal_uint32 close(void)
 {
-    pr_info("E\n");
+    pr_debug("E\n");
 
     /*No Need to implement this function*/
 
@@ -1484,7 +1484,7 @@ static kal_uint32 close(void)
 static kal_uint32 preview(MSDK_SENSOR_EXPOSURE_WINDOW_STRUCT *image_window,
                       MSDK_SENSOR_CONFIG_STRUCT *sensor_config_data)
 {
-    pr_info("E\n");
+    pr_debug("E\n");
 
     spin_lock(&imgsensor_drv_lock);
     imgsensor.sensor_mode = IMGSENSOR_MODE_PREVIEW;
@@ -1519,7 +1519,7 @@ static kal_uint32 preview(MSDK_SENSOR_EXPOSURE_WINDOW_STRUCT *image_window,
 static kal_uint32 capture(MSDK_SENSOR_EXPOSURE_WINDOW_STRUCT *image_window,
                           MSDK_SENSOR_CONFIG_STRUCT *sensor_config_data)
 {
-    pr_info("E\n");
+    pr_debug("E\n");
 	
     spin_lock(&imgsensor_drv_lock);
     imgsensor.sensor_mode = IMGSENSOR_MODE_CAPTURE;
@@ -1531,7 +1531,7 @@ static kal_uint32 capture(MSDK_SENSOR_EXPOSURE_WINDOW_STRUCT *image_window,
         imgsensor.autoflicker_en = KAL_FALSE;
     } else {
         if (imgsensor.current_fps != imgsensor_info.cap.max_framerate)
-            pr_info("Warning: current_fps %d fps is not support, so use cap's setting: %d fps!\n",imgsensor.current_fps,imgsensor_info.cap.max_framerate/10);
+            pr_debug("Warning: current_fps %d fps is not support, so use cap's setting: %d fps!\n",imgsensor.current_fps,imgsensor_info.cap.max_framerate/10);
         imgsensor.pclk = imgsensor_info.cap.pclk;
         imgsensor.line_length = imgsensor_info.cap.linelength;
         imgsensor.frame_length = imgsensor_info.cap.framelength;
@@ -1547,7 +1547,7 @@ static kal_uint32 capture(MSDK_SENSOR_EXPOSURE_WINDOW_STRUCT *image_window,
 static kal_uint32 normal_video(MSDK_SENSOR_EXPOSURE_WINDOW_STRUCT *image_window,
                       MSDK_SENSOR_CONFIG_STRUCT *sensor_config_data)
 {
-    pr_info("E\n");
+    pr_debug("E\n");
 
     spin_lock(&imgsensor_drv_lock);
     imgsensor.sensor_mode = IMGSENSOR_MODE_VIDEO;
@@ -1567,7 +1567,7 @@ static kal_uint32 normal_video(MSDK_SENSOR_EXPOSURE_WINDOW_STRUCT *image_window,
 static kal_uint32 hs_video(MSDK_SENSOR_EXPOSURE_WINDOW_STRUCT *image_window,
                       MSDK_SENSOR_CONFIG_STRUCT *sensor_config_data)
 {
-    pr_info("E\n");
+    pr_debug("E\n");
 
     spin_lock(&imgsensor_drv_lock);
     imgsensor.sensor_mode = IMGSENSOR_MODE_HIGH_SPEED_VIDEO;
@@ -1588,7 +1588,7 @@ static kal_uint32 hs_video(MSDK_SENSOR_EXPOSURE_WINDOW_STRUCT *image_window,
 static kal_uint32 slim_video(MSDK_SENSOR_EXPOSURE_WINDOW_STRUCT *image_window,
                       MSDK_SENSOR_CONFIG_STRUCT *sensor_config_data)
 {
-    pr_info("E\n");
+    pr_debug("E\n");
 
     spin_lock(&imgsensor_drv_lock);
     imgsensor.sensor_mode = IMGSENSOR_MODE_SLIM_VIDEO;
@@ -1607,7 +1607,7 @@ static kal_uint32 slim_video(MSDK_SENSOR_EXPOSURE_WINDOW_STRUCT *image_window,
 
 static kal_uint32 get_resolution(MSDK_SENSOR_RESOLUTION_INFO_STRUCT *(sensor_resolution))
 {
-    pr_info("E\n");
+    pr_debug("E\n");
     sensor_resolution->SensorFullWidth = imgsensor_info.cap.grabwindow_width;
     sensor_resolution->SensorFullHeight = imgsensor_info.cap.grabwindow_height;
 
@@ -1631,7 +1631,7 @@ static kal_uint32 get_info(enum MSDK_SCENARIO_ID_ENUM scenario_id,
                       MSDK_SENSOR_INFO_STRUCT *sensor_info,
                       MSDK_SENSOR_CONFIG_STRUCT *sensor_config_data)
 {
-    pr_info("scenario_id = %d\n", scenario_id);
+    pr_debug("scenario_id = %d\n", scenario_id);
 
 
     //sensor_info->SensorVideoFrameRate = imgsensor_info.normal_video.max_framerate/10; /* not use */
@@ -1733,7 +1733,7 @@ static kal_uint32 get_info(enum MSDK_SCENARIO_ID_ENUM scenario_id,
 static kal_uint32 control(enum MSDK_SCENARIO_ID_ENUM scenario_id, MSDK_SENSOR_EXPOSURE_WINDOW_STRUCT *image_window,
                       MSDK_SENSOR_CONFIG_STRUCT *sensor_config_data)
 {
-    pr_info("scenario_id = %d\n", scenario_id);
+    pr_debug("scenario_id = %d\n", scenario_id);
     spin_lock(&imgsensor_drv_lock);
     imgsensor.current_scenario_id = scenario_id;
     spin_unlock(&imgsensor_drv_lock);
@@ -1754,7 +1754,7 @@ static kal_uint32 control(enum MSDK_SCENARIO_ID_ENUM scenario_id, MSDK_SENSOR_EX
             slim_video(image_window, sensor_config_data);
             break;
         default:
-            pr_info("Error ScenarioId setting");
+            pr_debug("Error ScenarioId setting");
             preview(image_window, sensor_config_data);
             return ERROR_INVALID_SCENARIO_ID;
     }
@@ -1764,7 +1764,7 @@ static kal_uint32 control(enum MSDK_SCENARIO_ID_ENUM scenario_id, MSDK_SENSOR_EX
 
 static kal_uint32 set_video_mode(UINT16 framerate)
 {//This Function not used after ROME
-    pr_info("framerate = %d\n ", framerate);
+    pr_debug("framerate = %d\n ", framerate);
     // SetVideoMode Function should fix framerate
     if (framerate == 0)
         // Dynamic frame rate
@@ -1785,7 +1785,7 @@ static kal_uint32 set_video_mode(UINT16 framerate)
 
 static kal_uint32 set_auto_flicker_mode(kal_bool enable, UINT16 framerate)
 {
-    pr_info("enable = %d, framerate = %d \n", enable, framerate);
+    pr_debug("enable = %d, framerate = %d \n", enable, framerate);
     spin_lock(&imgsensor_drv_lock);
     if (enable) //enable auto flicker
         imgsensor.autoflicker_en = KAL_TRUE;
@@ -1800,7 +1800,7 @@ static kal_uint32 set_max_framerate_by_scenario(enum MSDK_SCENARIO_ID_ENUM scena
 {
     kal_uint32 frame_length;
 
-    pr_info("scenario_id = %d, framerate = %d\n", scenario_id, framerate);
+    pr_debug("scenario_id = %d, framerate = %d\n", scenario_id, framerate);
 
     switch (scenario_id) {
         case MSDK_SCENARIO_ID_CAMERA_PREVIEW:
@@ -1833,7 +1833,7 @@ static kal_uint32 set_max_framerate_by_scenario(enum MSDK_SCENARIO_ID_ENUM scena
 		            spin_unlock(&imgsensor_drv_lock);
             } else {
         		    if (imgsensor.current_fps != imgsensor_info.cap.max_framerate)
-                    pr_info("Warning: current_fps %d fps is not support, so use cap's setting: %d fps!\n",framerate,imgsensor_info.cap.max_framerate/10);
+                    pr_debug("Warning: current_fps %d fps is not support, so use cap's setting: %d fps!\n",framerate,imgsensor_info.cap.max_framerate/10);
                 frame_length = imgsensor_info.cap.pclk / framerate * 10 / imgsensor_info.cap.linelength;
                 spin_lock(&imgsensor_drv_lock);
 		            imgsensor.dummy_line = (frame_length > imgsensor_info.cap.framelength) ? (frame_length - imgsensor_info.cap.framelength) : 0;
@@ -1869,7 +1869,7 @@ static kal_uint32 set_max_framerate_by_scenario(enum MSDK_SCENARIO_ID_ENUM scena
             imgsensor.min_frame_length = imgsensor.frame_length;
             spin_unlock(&imgsensor_drv_lock);
             set_dummy();
-            pr_info("error scenario_id = %d, we use preview scenario \n", scenario_id);
+            pr_debug("error scenario_id = %d, we use preview scenario \n", scenario_id);
             break;
     }
     return ERROR_NONE;
@@ -1878,7 +1878,7 @@ static kal_uint32 set_max_framerate_by_scenario(enum MSDK_SCENARIO_ID_ENUM scena
 
 static kal_uint32 get_default_framerate_by_scenario(enum MSDK_SCENARIO_ID_ENUM scenario_id, MUINT32 *framerate)
 {
-    pr_info("scenario_id = %d\n", scenario_id);
+    pr_debug("scenario_id = %d\n", scenario_id);
 
     switch (scenario_id) {
         case MSDK_SCENARIO_ID_CAMERA_PREVIEW:
@@ -1917,7 +1917,7 @@ static kal_uint32 feature_control(MSDK_SENSOR_FEATURE_ENUM feature_id,
     struct SENSOR_WINSIZE_INFO_STRUCT *wininfo;
     MSDK_SENSOR_REG_INFO_STRUCT *sensor_reg_data=(MSDK_SENSOR_REG_INFO_STRUCT *) feature_para;
 
-    pr_info("feature_id = %d\n", feature_id);
+    pr_debug("feature_id = %d\n", feature_id);
     switch (feature_id) {
         case SENSOR_FEATURE_GET_PERIOD:
             *feature_return_para_16++ = imgsensor.line_length;
@@ -1946,7 +1946,7 @@ static kal_uint32 feature_control(MSDK_SENSOR_FEATURE_ENUM feature_id,
             break;
         case SENSOR_FEATURE_GET_REGISTER:
             sensor_reg_data->RegData = read_cmos_sensor(sensor_reg_data->RegAddr);
-			pr_info("adb_i2c_read 0x%x = 0x%x\n",sensor_reg_data->RegAddr,sensor_reg_data->RegData);//travis add	
+			pr_debug("adb_i2c_read 0x%x = 0x%x\n",sensor_reg_data->RegAddr,sensor_reg_data->RegData);//travis add	
             break;
         case SENSOR_FEATURE_GET_LENS_DRIVER_ID:
             // get the lens driver ID from EEPROM or just return LENS_DRIVER_ID_DO_NOT_CARE
@@ -1977,19 +1977,19 @@ static kal_uint32 feature_control(MSDK_SENSOR_FEATURE_ENUM feature_id,
             *feature_para_len=4;
             break;
         case SENSOR_FEATURE_SET_FRAMERATE:
-            pr_info("current fps :%d\n", (UINT32)*feature_data);
+            pr_debug("current fps :%d\n", (UINT32)*feature_data);
             spin_lock(&imgsensor_drv_lock);
             imgsensor.current_fps = *feature_data;
             spin_unlock(&imgsensor_drv_lock);
             break;
         case SENSOR_FEATURE_SET_HDR:
-            pr_info("ihdr enable :%d\n", (BOOL)*feature_data);
+            pr_debug("ihdr enable :%d\n", (BOOL)*feature_data);
             spin_lock(&imgsensor_drv_lock);
             imgsensor.ihdr_en = (BOOL)*feature_data;
             spin_unlock(&imgsensor_drv_lock);
             break;
         case SENSOR_FEATURE_GET_CROP_INFO:
-            pr_info("SENSOR_FEATURE_GET_CROP_INFO scenarioId:%d\n", (UINT32)*feature_data);
+            pr_debug("SENSOR_FEATURE_GET_CROP_INFO scenarioId:%d\n", (UINT32)*feature_data);
 
             wininfo = (struct SENSOR_WINSIZE_INFO_STRUCT *)(uintptr_t)(*(feature_data+1));
 
@@ -2013,7 +2013,7 @@ static kal_uint32 feature_control(MSDK_SENSOR_FEATURE_ENUM feature_id,
             }
             break;
         case SENSOR_FEATURE_SET_IHDR_SHUTTER_GAIN:
-            pr_info("SENSOR_SET_SENSOR_IHDR LE=%d, SE=%d, Gain=%d\n",(UINT16)*feature_data,(UINT16)*(feature_data+1),(UINT16)*(feature_data+2));
+            pr_debug("SENSOR_SET_SENSOR_IHDR LE=%d, SE=%d, Gain=%d\n",(UINT16)*feature_data,(UINT16)*(feature_data+1),(UINT16)*(feature_data+2));
             ihdr_write_shutter_gain((UINT16)*feature_data,(UINT16)*(feature_data+1),(UINT16)*(feature_data+2));
             break;
         default:

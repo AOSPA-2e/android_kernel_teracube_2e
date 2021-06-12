@@ -924,7 +924,7 @@ static kal_uint16 read_otp_module_id(void)
 	AFRegulatorCtrl(0);
 	AFRegulatorCtrl(1);
 	iReadRegI2C(pu_send_cmd, 2, (u8 *) &get_byte, 1, EEPROM_WRITE_ID);
-	pr_info("read_otp_module_id1: 0x%x \n",get_byte);
+	pr_debug("read_otp_module_id1: 0x%x \n",get_byte);
 
 {
 	kal_uint16 addr1=0x0D10;
@@ -932,12 +932,12 @@ static kal_uint16 read_otp_module_id(void)
     	//char pusendcmd2[3] = {(char)(addr1 >> 8) , (char)(addr1 & 0xFF) ,(char)(para)  };
 	char pu_send_cmd3[2] = { (char)(addr1 >> 8), (char)(addr1 & 0xFF) };
 	iReadRegI2C(pu_send_cmd3, 2, (u8 *) &get_byte, 1, EEPROM_WRITE_ID);
-	pr_info("read_otp_module_id11: 0x%x \n",get_byte);
+	pr_debug("read_otp_module_id11: 0x%x \n",get_byte);
     	//iWriteRegI2C(pusendcmd2 , 3, EEPROM_WRITE_ID);
-	//pr_info("read_otp_module_id2: 0x%x \n",get_byte);
+	//pr_debug("read_otp_module_id2: 0x%x \n",get_byte);
   	//mdelay(10);
 	//iReadRegI2C(pu_send_cmd3, 2, (u8 *) &get_byte, 1, EEPROM_WRITE_ID);
-	//pr_info("read_otp_module_id3: 0x%x \n",get_byte);
+	//pr_debug("read_otp_module_id3: 0x%x \n",get_byte);
 }
 
 	return get_byte;

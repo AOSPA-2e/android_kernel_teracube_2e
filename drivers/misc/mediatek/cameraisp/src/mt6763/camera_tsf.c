@@ -149,9 +149,9 @@ struct TSF_CLK_STRUCT TSF_clk;
 
 #define LOG_INF(format, args...)    pr_debug(MyTag format,  ##args)
 #define LOG_NOTICE(format, args...) pr_notice(MyTag format,  ##args)
-#define LOG_WRN(format, args...)    pr_info(MyTag format,  ##args)
-#define LOG_ERR(format, args...)    pr_info(MyTag format,  ##args)
-#define LOG_AST(format, args...)    pr_info(MyTag format, ##args)
+#define LOG_WRN(format, args...)    pr_debug(MyTag format,  ##args)
+#define LOG_ERR(format, args...)    pr_debug(MyTag format,  ##args)
+#define LOG_AST(format, args...)    pr_debug(MyTag format, ##args)
 
 
 /*******************************************************************************

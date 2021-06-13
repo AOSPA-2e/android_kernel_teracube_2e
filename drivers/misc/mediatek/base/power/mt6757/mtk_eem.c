@@ -763,8 +763,8 @@ static void _mt_eem_aee_init(void)
 	pr_debug(ANDROID_LOG_ERROR, EEM_TAG, fmt, ##args)
 #define eem_warning(fmt, args...)					       \
 	pr_debug(ANDROID_LOG_WARN, EEM_TAG, fmt, ##args)
-#define eem_notice(fmt, args...) pr_info(ANDROID_LOG_INFO, EEM_TAG, fmt, ##args)
-#define eem_info(fmt, args...) pr_info(ANDROID_LOG_INFO, EEM_TAG, fmt, ##args)
+#define eem_notice(fmt, args...) pr_debug(ANDROID_LOG_INFO, EEM_TAG, fmt, ##args)
+#define eem_info(fmt, args...) pr_debug(ANDROID_LOG_INFO, EEM_TAG, fmt, ##args)
 #define eem_debug(fmt, args...)						       \
 	pr_debug(ANDROID_LOG_DEBUG, EEM_TAG, fmt, ##args)
 #else
@@ -774,7 +774,7 @@ static void _mt_eem_aee_init(void)
 #define eem_error(fmt, args...) pr_debug(EEM_TAG fmt, ##args)
 #define eem_warning(fmt, args...) pr_debug(EEM_TAG fmt, ##args)
 #define eem_notice(fmt, args...) pr_notice(EEM_TAG fmt, ##args)
-#define eem_info(fmt, args...) pr_info(EEM_TAG fmt, ##args)
+#define eem_info(fmt, args...) pr_debug(EEM_TAG fmt, ##args)
 #ifdef EARLY_PORTING
 #define eem_debug(fmt, args...) pr_debug(EEM_TAG fmt, ##args)
 #else

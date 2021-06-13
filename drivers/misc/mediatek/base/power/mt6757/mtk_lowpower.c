@@ -256,9 +256,9 @@ static __init int hotplug_lowpower_init(void)
 	cpu_cluster1_mask->bits[0] = default_cluster1_mask;
 
 	/*
-	 * pr_info("Cluster0 CPUs mask: %08X\n",
+	 * pr_debug("Cluster0 CPUs mask: %08X\n",
 	 *	(unsigned int)cpumask_bits(cpu_cluster0_mask)[0]);
-	 * pr_info("Cluster1 CPUs mask: %08X\n",
+	 * pr_debug("Cluster1 CPUs mask: %08X\n",
 	 *	(unsigned int)cpumask_bits(cpu_cluster1_mask)[0]);
 	 */
 
@@ -271,7 +271,7 @@ static __init int hotplug_lowpower_init(void)
 	if (ret)
 		return ret;
 
-	pr_info("CPU Hotplug Low Power Notification\n");
+	pr_debug("CPU Hotplug Low Power Notification\n");
 
 	return 0;
 }

@@ -27,7 +27,7 @@ void __attribute__ ((weak))
 __iomem *get_smem_start_addr(int md_id, enum SMEM_USER_ID user_id,
 	int *size_o)
 {
-	pr_info("%s not ready\n", __func__);
+	pr_debug("%s not ready\n", __func__);
 	return 0;
 }
 
@@ -82,8 +82,8 @@ static void check_ap_mdsrc_ack(void)
 		if (i++ < 10) {
 			mdelay(1);
 		} else {
-			pr_info("[SPM] WARNING: MD SLEEP = %d\n", md_sleep);
-			pr_info("%s CAN NOT polling AP_MD1SRC_ACK\n",
+			pr_debug("[SPM] WARNING: MD SLEEP = %d\n", md_sleep);
+			pr_debug("%s CAN NOT polling AP_MD1SRC_ACK\n",
 				__func__);
 			break;
 		}
@@ -98,7 +98,7 @@ void spm_ap_mdsrc_req(u8 set)
 		spin_lock_irqsave(&__spm_lock, flags);
 
 		if (spm_ap_mdsrc_req_cnt < 0) {
-			pr_info(
+			pr_debug(
 				"[SPM] warning: set = %d, spm_ap_mdsrc_req_cnt = %d\n",
 				set, spm_ap_mdsrc_req_cnt);
 			spin_unlock_irqrestore(&__spm_lock, flags);
@@ -117,7 +117,7 @@ void spm_ap_mdsrc_req(u8 set)
 		spm_ap_mdsrc_req_cnt--;
 
 		if (spm_ap_mdsrc_req_cnt < 0) {
-			pr_info(
+			pr_debug(
 				"[SPM ]warning: set = %d spm_ap_mdsrc_req_cnt = %d\n",
 				set, spm_ap_mdsrc_req_cnt);
 		} else {
@@ -300,7 +300,7 @@ EXPORT_SYMBOL(get_spmfw_version);
 
 void spm_output_sleep_option(void)
 {
-	pr_info("[SPM] PWAKE_EN:%d, PCMWDT_EN:%d, BYPASS_SYSPWREQ:%d\n",
+	pr_debug("[SPM] PWAKE_EN:%d, PCMWDT_EN:%d, BYPASS_SYSPWREQ:%d\n",
 		   SPM_PWAKE_EN, SPM_PCMWDT_EN, SPM_BYPASS_SYSPWREQ);
 }
 EXPORT_SYMBOL(spm_output_sleep_option);

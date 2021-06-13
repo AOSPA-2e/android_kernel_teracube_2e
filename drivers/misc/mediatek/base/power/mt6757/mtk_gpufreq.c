@@ -255,7 +255,7 @@
 #define gpufreq_warn(fmt, args...)	\
 	pr_debug(TAG"[WARNING]"fmt, ##args)
 #define gpufreq_info(fmt, args...)	\
-	pr_info(TAG""fmt, ##args)
+	pr_debug(TAG""fmt, ##args)
 #define gpufreq_dbg(fmt, args...)	   \
 	do {								\
 		if (mt_gpufreq_debug)		   \

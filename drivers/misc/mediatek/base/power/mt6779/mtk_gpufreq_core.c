@@ -715,7 +715,7 @@ unsigned int mt_gpufreq_voltage_enable_set(unsigned int enable)
 		__func__, enable, g_volt_enable_state);
 
 	if (g_DVFS_is_paused_by_ptpod && enable == 0) {
-		gpufreq_pr_info("@%s: DVFS is paused by PTPOD\n", __func__);
+		gpufreq_pr_debug("@%s: DVFS is paused by PTPOD\n", __func__);
 		mutex_unlock(&mt_gpufreq_lock);
 		return -1;
 	}
@@ -778,11 +778,11 @@ void mt_gpufreq_enable_by_ptpod(void)
 
 #if defined(CONFIG_ARM64) && \
 	defined(CONFIG_BUILD_ARM64_DTB_OVERLAY_IMAGE_NAMES)
-	pr_info("[GPU DVFS] flavor name: %s\n",
+	pr_debug("[GPU DVFS] flavor name: %s\n",
 				CONFIG_BUILD_ARM64_DTB_OVERLAY_IMAGE_NAMES);
 	if ((strstr(CONFIG_BUILD_ARM64_DTB_OVERLAY_IMAGE_NAMES,
 		"k79v1_64_aging") != NULL)) {
-		pr_info("[GPU_DVFS]: AGING flavor !!!\n");
+		pr_debug("[GPU_DVFS]: AGING flavor !!!\n");
 		g_enable_aging_test = 1;
 	}
 #endif
@@ -2806,14 +2806,14 @@ static int __mt_gpufreq_pdrv_probe(struct platform_device *pdev)
 		return PTR_ERR(g_clk->mtcmos_mfg_core1);
 	}
 
-	pr_info("[GPU/DVFS][INFO]@%s: clk_mux is at 0x%p, ",
+	pr_debug("[GPU/DVFS][INFO]@%s: clk_mux is at 0x%p, ",
 		__func__, g_clk->clk_mux);
-	pr_info("clk_sub_parent is at 0x%p, ", g_clk->clk_sub_parent);
-	pr_info("clk_main_parent is at 0x%p, ", g_clk->clk_main_parent);
-	pr_info("mtcmos_mfg_async is at 0x%p, ", g_clk->mtcmos_mfg_async);
-	pr_info("mtcmos_mfg is at 0x%p, ", g_clk->mtcmos_mfg);
-	pr_info("mtcmos_mfg_core0 is at 0x%p, ", g_clk->mtcmos_mfg_core0);
-	pr_info("mtcmos_mfg_core1 is at 0x%p\n", g_clk->mtcmos_mfg_core1);
+	pr_debug("clk_sub_parent is at 0x%p, ", g_clk->clk_sub_parent);
+	pr_debug("clk_main_parent is at 0x%p, ", g_clk->clk_main_parent);
+	pr_debug("mtcmos_mfg_async is at 0x%p, ", g_clk->mtcmos_mfg_async);
+	pr_debug("mtcmos_mfg is at 0x%p, ", g_clk->mtcmos_mfg);
+	pr_debug("mtcmos_mfg_core0 is at 0x%p, ", g_clk->mtcmos_mfg_core0);
+	pr_debug("mtcmos_mfg_core1 is at 0x%p\n", g_clk->mtcmos_mfg_core1);
 
 	/* check EFUSE register 0x11f10050[27:24] */
 	/* Free Version : 4'b0000 */
@@ -2830,7 +2830,7 @@ static int __mt_gpufreq_pdrv_probe(struct platform_device *pdev)
 	 *if (g_efuse_id == 0x8 || g_efuse_id == 0xf) {
 	 *} else {
 	 *}
-	 *gpufreq_pr_info("@%s: g_efuse_id = 0x%08X, g_segment_id = %d\n",
+	 *gpufreq_pr_debug("@%s: g_efuse_id = 0x%08X, g_segment_id = %d\n",
 	 *	__func__, g_efuse_id, g_segment_id);
 	 */
 	/* alloc PMIC regulator */
@@ -2932,7 +2932,7 @@ static int __mt_gpufreq_pdrv_probe(struct platform_device *pdev)
 	/* setup initial opp */
 	__mt_gpufreq_set_initial();
 
-	/*pr_info("[GPU/DVFS][INFO]@%s: VGPU is enabled = %d (%d mV),"
+	/*pr_debug("[GPU/DVFS][INFO]@%s: VGPU is enabled = %d (%d mV),"
 	 *		" VSRAM is enabled = %d (%d mV)\n",
 	 *		__func__, regulator_is_enabled(g_pmic->reg_vgpu),
 	 *		(regulator_get_voltage(g_pmic->reg_vgpu) / 1000),
@@ -2941,7 +2941,7 @@ static int __mt_gpufreq_pdrv_probe(struct platform_device *pdev)
 	 */
 
 	/*
-	 * pr_info("[GPU/DVFS][INFO]@%s: current freq = %d KHz,"
+	 * pr_debug("[GPU/DVFS][INFO]@%s: current freq = %d KHz,"
 	 *		" current volt = %d uV, \t"
 	 *		"g_cur_opp_freq = %d, g_cur_opp_volt = %d,"
 	 *		"g_cur_opp_vsram_volt = %d, \t"
@@ -2992,7 +2992,7 @@ static int __mt_gpufreq_pdrv_probe(struct platform_device *pdev)
 		BATTERY_OC_PRIO_GPU);
 #endif /* ifdef MT_GPUFREQ_BATT_OC_PROTECT */
 
-	pr_info(" VGPU/VSRAM/VMDLA/VAPU slew rate: down(%dmV/us), up(%dmV/us)\t",
+	pr_debug(" VGPU/VSRAM/VMDLA/VAPU slew rate: down(%dmV/us), up(%dmV/us)\t",
 		SLEW_RATE_DOWN, SLEW_RATE_UP);
 
 

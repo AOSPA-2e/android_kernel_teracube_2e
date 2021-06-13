@@ -703,13 +703,13 @@ static u32 dbg_repo_bak[DBG_REPO_NUM];
 
 #define TAG "[CPUHVFS] "
 #define tag_pr_notice(fmt, args...) pr_notice(TAG fmt, ##args)
-#define tag_pr_info(fmt, args...) pr_info(TAG fmt, ##args)
+#define tag_pr_debug(fmt, args...) pr_debug(TAG fmt, ##args)
 #define tag_pr_debug(fmt, args...) pr_debug(TAG fmt, ##args)
 
 #define cspm_dbgx(flag, fmt, args...)                                          \
 	do {                                                                   \
 		if (dbgx_log_en & DLF_##flag)                                  \
-			tag_pr_info(fmt, ##args);                              \
+			tag_pr_debug(fmt, ##args);                              \
 		else if (dbgx_log_en & (DLF_##flag << 16))                     \
 			tag_pr_debug(fmt, ##args);                             \
 		else                                                           \
@@ -2198,7 +2198,7 @@ static void init_cpuhvfs_debug_repo(struct cpuhvfs_data *cpuhvfs)
 	dbg_repo_bak[REPO_I_WDT_LATCH2] = cspm_read(CSPM_PCM_WDT_LATCH2);
 	dbg_repo_bak[REPO_I_WDT_LATCH3] = cspm_read(CSPM_PCM_WDT_LATCH3);
 	dbg_repo_bak[REPO_I_WDT_LATCH4] = cspm_read(CSPM_PCM_WDT_LATCH4);
-	tag_pr_info(
+	tag_pr_debug(
 "WDT_LATCH0: 0x%x, LATCH1: 0x%x, LATCH2: 0x%x, LATCH3: 0x%x,LATCH4: 0x%x\n",
 	    dbg_repo_bak[REPO_I_WDT_LATCH0], dbg_repo_bak[REPO_I_WDT_LATCH1],
 	    dbg_repo_bak[REPO_I_WDT_LATCH2], dbg_repo_bak[REPO_I_WDT_LATCH3],

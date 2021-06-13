@@ -1014,13 +1014,13 @@ void mtk_suspend_cond_info(void)
 	for (j = 0; j < NR_SPM_RES_LEVEL_TYPES; j++) {
 		for (i = 0; i < NR_CG_GRPS; i++) {
 			if (idle_block_mask_resource[j][i] && !need_log) {
-				pr_info("[%s]\n",
+				pr_debug("[%s]\n",
 				mtk_resource_level_id_string[j]);
 				need_log = true;
 			}
 
 			if (idle_block_mask_resource[j][i]) {
-				pr_info("[%02d %s] 0x%08x\n",
+				pr_debug("[%02d %s] 0x%08x\n",
 				i,
 				idle_cg_info[i].name,
 				idle_block_mask_resource[j][i]);
@@ -1028,10 +1028,10 @@ void mtk_suspend_cond_info(void)
 			}
 		}
 		if (idle_pll_block_mask[j] && !need_log)
-			pr_info("[%s]\n",
+			pr_debug("[%s]\n",
 			mtk_resource_level_id_string[j]);
 		if (idle_pll_block_mask[j]) {
-			pr_info("idle_pll_block_mask: 0x%08x\n",
+			pr_debug("idle_pll_block_mask: 0x%08x\n",
 				idle_pll_block_mask[j]);
 			/* WARN_ON(1); */
 		}
@@ -1492,11 +1492,11 @@ static int get_base_from_node(
 
 	node = of_find_compatible_node(NULL, NULL, cmp);
 	if (!node)
-		pr_info("[IDLE] node '%s' not found!\n", cmp);
+		pr_debug("[IDLE] node '%s' not found!\n", cmp);
 
 	*pbase = of_iomap(node, idx);
 	if (!(*pbase))
-		pr_info("[IDLE] node '%s' cannot iomap!\n", cmp);
+		pr_debug("[IDLE] node '%s' cannot iomap!\n", cmp);
 
 	return 0;
 }

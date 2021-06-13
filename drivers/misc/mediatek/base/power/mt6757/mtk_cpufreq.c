@@ -366,13 +366,13 @@ static unsigned int max_vsram_volt = MAX_VSRAM_VOLT_FY;
 /* Debugging */
 #define TAG "[Power/cpufreq] "
 #define tag_pr_notice(fmt, args...) pr_notice(TAG fmt, ##args)
-#define tag_pr_info(fmt, args...) pr_info(TAG fmt, ##args)
+#define tag_pr_debug(fmt, args...) pr_debug(TAG fmt, ##args)
 #define tag_pr_debug(fmt, args...) pr_debug(TAG fmt, ##args)
 
 #define cpufreq_ver(fmt, args...)				\
 	do {							\
 		if (func_lv_mask)				\
-		tag_pr_info(fmt, ##args);			\
+		tag_pr_debug(fmt, ##args);			\
 	} while (0)
 
 #define GEN_DB_ON(condition, fmt, args...)			\
@@ -2752,7 +2752,7 @@ static int _mt_cpufreq_sync_opp_tbl_idx(struct mt_cpu_dvfs *p)
 	if (cpu_dvfs_is_available(p))
 	ret = _sync_opp_tbl_idx(p);
 
-	tag_pr_info("%s freq = %d\n", cpu_dvfs_get_name(p),
+	tag_pr_debug("%s freq = %d\n", cpu_dvfs_get_name(p),
 		cpu_dvfs_get_cur_freq(p));
 
 	return ret;
@@ -3593,7 +3593,7 @@ static ssize_t cpufreq_debug_proc_write(struct file *file,
 
 	rc = kstrtoint(buf, 10, &dbg_lv);
 	if (rc < 0)
-		tag_pr_info(
+		tag_pr_debug(
 		"echo dbg_lv (dec) > /proc/cpufreq/cpufreq_debug\n");
 	else
 		func_lv_mask = dbg_lv;
@@ -3633,7 +3633,7 @@ static ssize_t cpufreq_power_mode_proc_write(struct file *file,
 #endif
 	tag_pr_debug("%s start\n", power_mode_str[mode]);
 	} else {
-		tag_pr_info("echo 0/1/2/3 > /proc/cpufreq/cpufreq_power_mode\n"
+		tag_pr_debug("echo 0/1/2/3 > /proc/cpufreq/cpufreq_power_mode\n"
 				);
 	}
 
@@ -3681,7 +3681,7 @@ static ssize_t ppb_hispeed_freq_proc_write(struct file *file,
 
 OUT:
 	if (idx >= p->nr_opp_tbl)
-	tag_pr_info(
+	tag_pr_debug(
 		"echo [0~3] [0~15] > /proc/cpufreq/%s/ppb_hispeed_freq\n",
 		p->name);
 
@@ -3708,7 +3708,7 @@ static ssize_t cpufreq_stress_test_proc_write(struct file *file,
 		return -EINVAL;
 	rc = kstrtoint(buf, 10, &do_stress);
 	if (rc < 0)
-		tag_pr_info("echo 0/1 > /proc/cpufreq/cpufreq_stress_test\n");
+		tag_pr_debug("echo 0/1 > /proc/cpufreq/cpufreq_stress_test\n");
 	else
 		do_dvfs_stress_test = do_stress;
 
@@ -3924,7 +3924,7 @@ static ssize_t cpufreq_oppidx_proc_write(struct file *file,
 	rc = kstrtoint(buf, 10, &oppidx);
 	if (rc < 0) {
 		p->dvfs_disable_by_procfs = false;
-		tag_pr_info("echo oppidx > /proc/cpufreq/%s/cpufreq_oppidx\n",
+		tag_pr_debug("echo oppidx > /proc/cpufreq/%s/cpufreq_oppidx\n",
 		p->name);
 	} else {
 		if (oppidx >= 0 && oppidx < p->nr_opp_tbl) {
@@ -3939,7 +3939,7 @@ static ssize_t cpufreq_oppidx_proc_write(struct file *file,
 #endif
 	} else {
 		p->dvfs_disable_by_procfs = false;
-		tag_pr_info(
+		tag_pr_debug(
 		"echo oppidx > /proc/cpufreq/%s/cpufreq_oppidx\n",
 		p->name);
 	}
@@ -3977,12 +3977,12 @@ static ssize_t cpufreq_freq_proc_write(struct file *file,
 	rc = kstrtoint(buf, 10, &freq);
 	if (rc < 0) {
 		p->dvfs_disable_by_procfs = false;
-		tag_pr_info("echo khz > /proc/cpufreq/%s/cpufreq_freq\n",
+		tag_pr_debug("echo khz > /proc/cpufreq/%s/cpufreq_freq\n",
 		p->name);
 	} else {
 		if (freq < CPUFREQ_LAST_FREQ_LEVEL) {
 		if (freq != 0)
-		tag_pr_info(
+		tag_pr_debug(
 			"frequency should higher than %dKHz!\n",
 			CPUFREQ_LAST_FREQ_LEVEL);
 
@@ -4014,7 +4014,7 @@ static ssize_t cpufreq_freq_proc_write(struct file *file,
 			_kick_PBM_by_cpu(p);
 	} else {
 		p->dvfs_disable_by_procfs = false;
-		tag_pr_info("frequency %dKHz! is not found in CPU opp table\n",
+		tag_pr_debug("frequency %dKHz! is not found in CPU opp table\n",
 				freq);
 	}
 	}
@@ -4061,7 +4061,7 @@ static ssize_t cpufreq_volt_proc_write(struct file *file,
 	rc = kstrtoint(buf, 10, &mv);
 	if (rc < 0) {
 		p->dvfs_disable_by_procfs = false;
-		tag_pr_info("echo mv > /proc/cpufreq/%s/cpufreq_volt\n",
+		tag_pr_debug("echo mv > /proc/cpufreq/%s/cpufreq_volt\n",
 		p->name);
 	} else {
 		p->dvfs_disable_by_procfs = true;
@@ -4101,7 +4101,7 @@ static ssize_t cpufreq_dvfs_time_profile_proc_write(struct file *file,
 
 	rc = kstrtoint(buf, 10, &temp);
 	if (rc < 0)
-		tag_pr_info(
+		tag_pr_debug(
 		"echo 1 > /proc/cpufreq/cpufreq_dvfs_time_profile\n");
 	else {
 		if (temp == 1) {

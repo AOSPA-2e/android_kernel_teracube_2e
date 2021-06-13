@@ -84,14 +84,14 @@ static void __iomem *udipin_base; /* 0x10005000 0x1000, UDI pinmux reg */
 	pr_debug(ANDROID_LOG_ERROR, UDI_TAG, fmt, ##args)
 #define udi_warning(fmt, args...)                                              \
 	pr_debug(ANDROID_LOG_WARN, UDI_TAG, fmt, ##args)
-#define udi_notice(fmt, args...) pr_info(ANDROID_LOG_INFO, UDI_TAG, fmt, ##args)
-#define udi_info(fmt, args...) pr_info(ANDROID_LOG_INFO, UDI_TAG, fmt, ##args)
+#define udi_notice(fmt, args...) pr_debug(ANDROID_LOG_INFO, UDI_TAG, fmt, ##args)
+#define udi_info(fmt, args...) pr_debug(ANDROID_LOG_INFO, UDI_TAG, fmt, ##args)
 #define udi_debug(fmt, args...)                                                \
 	pr_debug(ANDROID_LOG_DEBUG, UDI_TAG, fmt, ##args)
 #define udi_ver(fmt, args...)                                                  \
 	do {                                                                   \
 		if (func_lv_mask_udi)                                          \
-			pr_info(ANDROID_LOG_INFO, UDI_TAG, fmt, ##args);       \
+			pr_debug(ANDROID_LOG_INFO, UDI_TAG, fmt, ##args);       \
 	} while (0)
 #else
 #define udi_emerg(fmt, args...) pr_debug(UDI_TAG fmt, ##args)
@@ -100,12 +100,12 @@ static void __iomem *udipin_base; /* 0x10005000 0x1000, UDI pinmux reg */
 #define udi_error(fmt, args...) pr_debug(UDI_TAG fmt, ##args)
 #define udi_warning(fmt, args...) pr_debug(UDI_TAG fmt, ##args)
 #define udi_notice(fmt, args...) pr_notice(UDI_TAG fmt, ##args)
-#define udi_info(fmt, args...) pr_info(UDI_TAG fmt, ##args)
+#define udi_info(fmt, args...) pr_debug(UDI_TAG fmt, ##args)
 #define udi_debug(fmt, args...) pr_debug(UDI_TAG fmt, ##args)
 #define udi_ver(fmt, args...)                                                  \
 	do {                                                                   \
 		if (func_lv_mask_udi)                                          \
-			pr_info(UDI_TAG fmt, ##args);                          \
+			pr_debug(UDI_TAG fmt, ##args);                          \
 	} while (0)
 #endif
 #else

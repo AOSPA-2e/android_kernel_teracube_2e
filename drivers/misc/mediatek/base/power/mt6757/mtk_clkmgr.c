@@ -75,7 +75,7 @@ static char dbg_buf[dbg_bug_size] = {0};
 
 #define clk_err(fmt, args...) pr_debug(TAG fmt, ##args)
 #define clk_warn(fmt, args...) pr_debug(TAG fmt, ##args)
-#define clk_info(fmt, args...) pr_info(TAG fmt, ##args)
+#define clk_info(fmt, args...) pr_debug(TAG fmt, ##args)
 #define clk_dbg(fmt, args...) pr_debug(TAG fmt, ##args)
 
 /************************************************

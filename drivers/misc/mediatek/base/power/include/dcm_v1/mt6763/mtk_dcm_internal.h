@@ -50,10 +50,10 @@
 #endif
 
 #define REG_DUMP(addr) \
-	dcm_pr_info("%-30s(0x%08lx): 0x%08x\n", #addr, addr, \
+	dcm_pr_debug("%-30s(0x%08lx): 0x%08x\n", #addr, addr, \
 	reg_read(addr))
 #define SECURE_REG_DUMP(addr) \
-	dcm_pr_info("%-30s(0x%08lx): 0x%08x\n", #addr, addr, \
+	dcm_pr_debug("%-30s(0x%08lx): 0x%08x\n", #addr, addr, \
 	mcsi_reg_read(addr##_PHYS & 0xFFFF))
 
 enum {

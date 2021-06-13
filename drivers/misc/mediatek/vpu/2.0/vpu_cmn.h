@@ -505,7 +505,7 @@ void vpu_met_event_leave(int core, int algo_id);
 #else
 #define LOG_DBG(format, args...)
 #endif
-#define LOG_INF(format, args...)    pr_info(VPU_TAG " " format, ##args)
+#define LOG_DBG(format, args...)    pr_info(VPU_TAG " " format, ##args)
 #define LOG_WRN(format, args...)    pr_info(VPU_TAG "[warn] " format, ##args)
 #define LOG_ERR(format, args...)    pr_info(VPU_TAG "[error] " format, ##args)
 

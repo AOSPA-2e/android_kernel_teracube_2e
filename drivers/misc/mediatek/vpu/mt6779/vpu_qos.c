@@ -256,7 +256,7 @@ static int deque_cmd_qos(struct qos_counter *counter)
 	};
 
 	if (g_vpu_log_level > VpuLogThre_PERFORMANCE) {
-		LOG_INF("[vpu][qos] cmd:bw(%d/%d)\n",
+		LOG_DBG("[vpu][qos] cmd:bw(%d/%d)\n",
 			avg_bw, cmd_qos->total_bw);
 	}
 

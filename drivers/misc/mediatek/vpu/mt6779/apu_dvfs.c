@@ -407,10 +407,10 @@ void dump_opp_table(void)
 
 	LOG_DBG("%s start\n", __func__);
 	for (i = 0; i < VPU_DVFS_OPP_MAX; i++) {
-		LOG_INF("vpu opp:%d, vol:%d, freq:%d\n", i
+		LOG_DBG("vpu opp:%d, vol:%d, freq:%d\n", i
 			, vpu_opp_table[i].vpufreq_volt
 		, vpu_opp_table[i].vpufreq_khz);
-		LOG_INF("mdla opp:%d, vol:%d, freq:%d\n", i
+		LOG_DBG("mdla opp:%d, vol:%d, freq:%d\n", i
 			, mdla_opp_table[i].mdlafreq_volt
 		, mdla_opp_table[i].mdlafreq_khz);
 	}
@@ -422,11 +422,11 @@ void dump_ptp_count(void)
 
 	LOG_DBG("%s start\n", __func__);
 	for (i = 0; i < 4; i++) {
-		LOG_INF("vvpu id:%d, ptp cnt:%d\n", i
+		LOG_DBG("vvpu id:%d, ptp cnt:%d\n", i
 			, vpu_ptp_count_table[i].vpu_ptp_count);
 	}
 	for (i = 0; i < 4; i++) {
-		LOG_INF("vmdla id:%d, ptp cnt:%d\n", i
+		LOG_DBG("vmdla id:%d, ptp cnt:%d\n", i
 			, mdla_ptp_count_table[i].mdla_ptp_count);
 	}
 	LOG_DBG("%s end\n", __func__);
@@ -538,9 +538,9 @@ bool vvpu_vmdla_vcore_checker(void)
 		regulator_get_voltage(vmdla_reg_id),
 		regulator_get_voltage(vcore_reg_id));
 	if (ret) {
-	LOG_INF("vvpuopp:%d, vmdlaopp:%d,\n", vvpu_orig_opp, vmdla_orig_opp);
-	LOG_INF("vvpu=%d, vmdla=%d, vcore=%d\n", vvpu, vmdla, vcore);
-	LOG_INF("get vvpu=%d, vmdla=%d, vcore=%d\n",
+	LOG_DBG("vvpuopp:%d, vmdlaopp:%d,\n", vvpu_orig_opp, vmdla_orig_opp);
+	LOG_DBG("vvpu=%d, vmdla=%d, vcore=%d\n", vvpu, vmdla, vcore);
+	LOG_DBG("get vvpu=%d, vmdla=%d, vcore=%d\n",
 		regulator_get_voltage(vvpu_reg_id),
 		regulator_get_voltage(vmdla_reg_id),
 		regulator_get_voltage(vcore_reg_id));
@@ -612,10 +612,10 @@ unsigned int vvpu_update_ptp_count(unsigned int ptp_count[],
 
 	for (i = 0; i < array_size; i++) {
 		vpu_ptp_count_table[i].vpu_ptp_count = ptp_count[i];
-		LOG_INF("%s id:%d, ptp cnt:0x%x\n", __func__, i, ptp_count[i]);
+		LOG_DBG("%s id:%d, ptp cnt:0x%x\n", __func__, i, ptp_count[i]);
 		}
 //
-LOG_INF("[CPE]:VPU Det_Count: %d, %d, %d, %d\n",
+LOG_DBG("[CPE]:VPU Det_Count: %d, %d, %d, %d\n",
 vpu_ptp_count_table[0].vpu_ptp_count,
 	vpu_ptp_count_table[1].vpu_ptp_count,
 	vpu_ptp_count_table[2].vpu_ptp_count,
@@ -638,10 +638,10 @@ unsigned int vmdla_update_ptp_count(unsigned int ptp_count[],
 
 	for (i = 0; i < array_size; i++) {
 		mdla_ptp_count_table[i].mdla_ptp_count = ptp_count[i];
-		LOG_INF("%s id:%d, ptp cnt:0x%x\n", __func__, i, ptp_count[i]);
+		LOG_DBG("%s id:%d, ptp cnt:0x%x\n", __func__, i, ptp_count[i]);
 		}
 //
-LOG_INF("[CPE]:MDLA Det_Count: %d, %d, %d, %d\n",
+LOG_DBG("[CPE]:MDLA Det_Count: %d, %d, %d, %d\n",
 mdla_ptp_count_table[0].mdla_ptp_count,
 	mdla_ptp_count_table[1].mdla_ptp_count,
 	mdla_ptp_count_table[2].mdla_ptp_count,
@@ -815,33 +815,33 @@ void mdla_enable_by_ptpod(void)
 
 	mode = regulator_get_mode(vvpu_reg_id);
 		if (mode == REGULATOR_MODE_FAST)
-		LOG_INF("++vvpu_reg_id pwm mode\n");
+		LOG_DBG("++vvpu_reg_id pwm mode\n");
 		else
-		LOG_INF("++vvpu_reg_id auto mode\n");
+		LOG_DBG("++vvpu_reg_id auto mode\n");
 
 	regulator_set_mode(vvpu_reg_id, REGULATOR_MODE_NORMAL);
 	udelay(100);
 
 	mode = regulator_get_mode(vvpu_reg_id);
 		if (mode == REGULATOR_MODE_FAST)
-		LOG_INF("--vvpu_reg_id pwm mode\n");
+		LOG_DBG("--vvpu_reg_id pwm mode\n");
 		else
-		LOG_INF("--vvpu_reg_id auto mode\n");
+		LOG_DBG("--vvpu_reg_id auto mode\n");
 
 	mode = regulator_get_mode(vmdla_reg_id);
 		if (mode == REGULATOR_MODE_FAST)
-		LOG_INF("++vmdla_reg_id pwm mode\n");
+		LOG_DBG("++vmdla_reg_id pwm mode\n");
 		else
-		LOG_INF("++vmdla_reg_id auto mode\n");
+		LOG_DBG("++vmdla_reg_id auto mode\n");
 
 	regulator_set_mode(vmdla_reg_id, REGULATOR_MODE_NORMAL);
 	udelay(100);
 
 	mode = regulator_get_mode(vmdla_reg_id);
 		if (mode == REGULATOR_MODE_FAST)
-		LOG_INF("--vmdla_reg_id pwm mode\n");
+		LOG_DBG("--vmdla_reg_id pwm mode\n");
 		else
-		LOG_INF("--vmdla_reg_id auto mode\n");
+		LOG_DBG("--vmdla_reg_id auto mode\n");
 
 		ret = regulator_set_voltage(vvpu_reg_id,
 			10*(vpu_opp_table[9].vpufreq_volt),
@@ -893,11 +893,11 @@ int vvpu_regulator_set_mode(bool enable)
 	int ret = 0;
 
 	if (!vvpu_reg_id) {
-		LOG_INF("vvpu_reg_id not ready\n");
+		LOG_DBG("vvpu_reg_id not ready\n");
 		return ret;
 	}
 	if (vvpu_DVFS_is_paused_by_ptpod) {
-		LOG_INF("vvpu dvfs lock\n");
+		LOG_DBG("vvpu dvfs lock\n");
 		return ret;
 	}
 	mutex_lock(&vpu_opp_lock);
@@ -925,11 +925,11 @@ int vmdla_regulator_set_mode(bool enable)
 	int ret = 0;
 
 	if (!vmdla_reg_id) {
-		LOG_INF("vmdla_reg_id not ready\n");
+		LOG_DBG("vmdla_reg_id not ready\n");
 		return ret;
 	}
 	if (vmdla_DVFS_is_paused_by_ptpod) {
-		LOG_INF("vmdla dvfs lock\n");
+		LOG_DBG("vmdla dvfs lock\n");
 		return ret;
 	}
 	mutex_lock(&mdla_opp_lock);
@@ -1229,7 +1229,7 @@ static int vvpu_vbin(int opp)
 
 	for (i = 0; i < 4; i++) {
 		if (vpu_ptp_count_table[i].vpu_ptp_count == 0) {
-		LOG_INF("vpu ptp count 0\n");
+		LOG_DBG("vpu ptp count 0\n");
 		result = 0;
 		return result;
 		}
@@ -1275,7 +1275,7 @@ static int vvpu_vbin(int opp)
 		else
 			result = 1;
 	}
-LOG_INF("[CPE]:VPU_OPP=%d,VPU_BIN=%d,CPE_VBIN=%d,Criteria=%d,Result=%d\n",
+LOG_DBG("[CPE]:VPU_OPP=%d,VPU_BIN=%d,CPE_VBIN=%d,Criteria=%d,Result=%d\n",
 	opp, vvpu_opp, vbin, pass_crit, result);
 	return result;
 }
@@ -1294,7 +1294,7 @@ static int vmdla_vbin(int opp)
 
 	for (i = 0; i < 4; i++) {
 		if (mdla_ptp_count_table[i].mdla_ptp_count == 0) {
-		LOG_INF("mdla ptp count 0\n");
+		LOG_DBG("mdla ptp count 0\n");
 		result = 0;
 		return result;
 		}
@@ -1342,7 +1342,7 @@ if (opp == 0) {
 			result = 1;
 	}
 
-LOG_INF("[CPE]:MDLA_OPP=%d,BIN=%d,CPE_VBIN=%d,Criteria=%d,Result=%d\n",
+LOG_DBG("[CPE]:MDLA_OPP=%d,BIN=%d,CPE_VBIN=%d,Criteria=%d,Result=%d\n",
 		opp, vmdla_opp, vbin, pass_crit, result);
 	return result;
 }
@@ -1355,33 +1355,33 @@ int apu_dvfs_dump_info(void)
 
 	mode = regulator_get_mode(vvpu_reg_id);
 		if (mode == REGULATOR_MODE_FAST)
-		LOG_INF("++vvpu_reg_id pwm mode\n");
+		LOG_DBG("++vvpu_reg_id pwm mode\n");
 		else
-		LOG_INF("++vvpu_reg_id auto mode\n");
+		LOG_DBG("++vvpu_reg_id auto mode\n");
 
 
 	mode = regulator_get_mode(vmdla_reg_id);
 		if (mode == REGULATOR_MODE_FAST)
-		LOG_INF("++vmdla_reg_id pwm mode\n");
+		LOG_DBG("++vmdla_reg_id pwm mode\n");
 		else
-		LOG_INF("++vmdla_reg_id auto mode\n");
+		LOG_DBG("++vmdla_reg_id auto mode\n");
 
 	vvpu_vmdla_vcore_checker();
 
 	for (i = 0; i < 4; i++) {
-		LOG_INF("id:%d, vpu ptp cnt:0x%x\n",
+		LOG_DBG("id:%d, vpu ptp cnt:0x%x\n",
 			i, vpu_ptp_count_table[i].vpu_ptp_count);
 	}
 	for (i = 0; i < 4; i++) {
-		LOG_INF("id:%d, mdla ptp cnt:0x%x\n",
+		LOG_DBG("id:%d, mdla ptp cnt:0x%x\n",
 			i, mdla_ptp_count_table[i].mdla_ptp_count);
 	}
 
-	LOG_INF("vpu dvfs lock:%d, mdla dvfs lock:%d\n",
+	LOG_DBG("vpu dvfs lock:%d, mdla dvfs lock:%d\n",
 		vvpu_DVFS_is_paused_by_ptpod, vmdla_DVFS_is_paused_by_ptpod);
-	LOG_INF("vpu cpe0:%d, cpe1:%d, cpe2:%d\n",
+	LOG_DBG("vpu cpe0:%d, cpe1:%d, cpe2:%d\n",
 		vvpu0_cpe_result, vvpu1_cpe_result, vvpu2_cpe_result);
-	LOG_INF("mdla cpe0:%d, cpe1:%d, cpe2:%d\n",
+	LOG_DBG("mdla cpe0:%d, cpe1:%d, cpe2:%d\n",
 		vmdla0_cpe_result, vmdla1_cpe_result, vmdla2_cpe_result);
 	vvpu_vbin(0);
 	vvpu_vbin(1);
@@ -1574,7 +1574,7 @@ static int commit_data(int type, int data)
 	case PM_QOS_VVPU_OPP:
 		mutex_lock(&vpu_opp_lock);
 		if (get_vvpu_DVFS_is_paused_by_ptpod())
-			LOG_INF("PM_QOS_VVPU_OPP paused by ptpod %d\n", data);
+			LOG_DBG("PM_QOS_VVPU_OPP paused by ptpod %d\n", data);
 		else {
 		    LOG_DVFS("%s PM_QOS_VVPU_OPP %d\n", __func__, data);
 /*settle time*/
@@ -1620,7 +1620,7 @@ static int commit_data(int type, int data)
 	case PM_QOS_VMDLA_OPP:
 		mutex_lock(&mdla_opp_lock);
 		if (get_vmdla_DVFS_is_paused_by_ptpod())
-			LOG_INF("PM_QOS_VMDLA_OPP paused by ptpod %d\n", data);
+			LOG_DBG("PM_QOS_VMDLA_OPP paused by ptpod %d\n", data);
 		else {
 		LOG_DVFS("%s PM_QOS_VMDLA_OPP %d\n", __func__, data);
 	/*settle time*/
@@ -1831,7 +1831,7 @@ static int apu_dvfs_probe(struct platform_device *pdev)
 		mdla_disable_by_ptpod();
 		ready_for_ptpod_check = true;
 	} else {
-	LOG_INF("EEM corner tighten close by DT\n");
+	LOG_DBG("EEM corner tighten close by DT\n");
 	ret = regulator_set_voltage(vvpu_reg_id,
 		10*(vpu_opp_table[9].vpufreq_volt),
 		850000);

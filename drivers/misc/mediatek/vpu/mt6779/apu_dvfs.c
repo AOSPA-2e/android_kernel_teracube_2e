@@ -1676,7 +1676,7 @@ static int commit_data(int type, int data)
 	get_vmdla_efuse();
 
 	if (ret < 0) {
-		pr_info("%s: type: 0x%x, data: 0x%x, opp: %d, level: %d\n",
+		pr_debug("%s: type: 0x%x, data: 0x%x, opp: %d, level: %d\n",
 				__func__, type, data, opp, level);
 		apu_dvfs_dump_reg(NULL);
 		aee_kernel_warning("dvfs", "%s: failed.", __func__);
@@ -1713,7 +1713,7 @@ char *apu_dvfs_dump_reg(char *ptr)
 	if (ptr)
 		ptr += sprintf(ptr, "%s\n", buf);
 	else
-		pr_info("%s\n", buf);
+		pr_debug("%s\n", buf);
 
 	return ptr;
 }

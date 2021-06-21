@@ -8649,7 +8649,7 @@ err0:
 
 int display_exit_tui(void)
 {
-	pr_info("[TUI-HAL]  display_exit_tui() start\n");
+	pr_debug("[TUI-HAL]  display_exit_tui() start\n");
 	mmprofile_log_ex(ddp_mmp_get_events()->tui, MMPROFILE_FLAG_PULSE, 1, 1);
 
 	_primary_path_lock(__func__);
@@ -8669,7 +8669,7 @@ int display_exit_tui(void)
 
 	mmprofile_log_ex(ddp_mmp_get_events()->tui, MMPROFILE_FLAG_END, 0, 0);
 	DISPMSG("TDDP: %s\n", __func__);
-	pr_info("[TUI-HAL]  display_exit_tui() done\n");
+	pr_debug("[TUI-HAL]  display_exit_tui() done\n");
 	return 0;
 }
 

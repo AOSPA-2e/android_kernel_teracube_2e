@@ -323,7 +323,7 @@ int primary_display_switch_esd_mode(int mode)
 					 ints[0], ints[1]);
 			/*mt_gpio_set_debounce(ints[0], ints[1]); */
 			else
-				pr_info("[%s]debounce time not found\n",
+				pr_debug("[%s]debounce time not found\n",
 					__func__);
 
 			irq = irq_of_parse_and_map(node, 0);
@@ -875,7 +875,7 @@ int external_display_switch_esd_mode(int mode)
 				 ints[1]);
 		/* mt_gpio_set_debounce(ints[0], ints[1]); */
 		else
-			pr_info("[%s]debounce time not found\n", __func__);
+			pr_debug("[%s]debounce time not found\n", __func__);
 		irq = irq_of_parse_and_map(node, 0);
 		if (request_irq(irq, extd_esd_check_ext_te_irq_handler,
 				IRQF_TRIGGER_RISING, "dsi_te_1-eint", NULL))

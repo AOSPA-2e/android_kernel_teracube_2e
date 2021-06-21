@@ -505,7 +505,7 @@ void dprec_logger_start_fps(void)
 		char fps_log[] = "[DISP] FPS OUTPUT ";
 		int i;
 
-		pr_info(
+		pr_debug(
 		    "%sfps:%2lld.%01lld, L0:%2lld.%01lld, L1:%2lld.%01lld\n",
 		    fps_log, dbg_disp.fps_info_dbg.total_fps_high,
 		    dbg_disp.fps_info_dbg.total_fps_low,
@@ -513,7 +513,7 @@ void dprec_logger_start_fps(void)
 		    dbg_disp.fps_info_dbg.layer_fps_low[0],
 		    dbg_disp.fps_info_dbg.layer_fps_high[1],
 		    dbg_disp.fps_info_dbg.layer_fps_low[1]);
-		pr_info(
+		pr_debug(
 		    "%sL2:%2lld.%01lld, L3:%2lld.%01lld, L4:%2lld.%01lld\n",
 		    fps_log, dbg_disp.fps_info_dbg.layer_fps_high[2],
 		    dbg_disp.fps_info_dbg.layer_fps_low[2],
@@ -521,7 +521,7 @@ void dprec_logger_start_fps(void)
 		    dbg_disp.fps_info_dbg.layer_fps_low[3],
 		    dbg_disp.fps_info_dbg.layer_fps_high[4],
 		    dbg_disp.fps_info_dbg.layer_fps_low[4]);
-		pr_info(
+		pr_debug(
 		    "%sL5:%2lld.%01lld, L6:%2lld.%01lld, L7:%2lld.%01lld\n",
 		    fps_log, dbg_disp.fps_info_dbg.layer_fps_high[5],
 		    dbg_disp.fps_info_dbg.layer_fps_low[5],

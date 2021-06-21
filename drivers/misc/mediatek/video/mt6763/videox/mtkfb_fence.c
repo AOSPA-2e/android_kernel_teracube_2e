@@ -444,7 +444,7 @@ static void mtkfb_ion_cache_flush(struct ion_client *client,
 	sys_data.cache_sync_param.sync_type = ION_CACHE_FLUSH_BY_RANGE;
 
 	if (ion_kernel_ioctl(client, ION_CMD_SYSTEM, (unsigned long)&sys_data))
-		pr_info("ion cache flush failed!\n");
+		pr_debug("ion cache flush failed!\n");
 
 	ion_unmap_kernel(client, handle);
 }
@@ -532,7 +532,7 @@ unsigned int mtkfb_query_buf_va(unsigned int session_id, unsigned int layer_id,
 	mutex_unlock(&layer_info->sync_lock);
 	if (va == 0x0) {
 		/* FIXME: non-ion buffer need cache sync here? */
-		pr_info(
+		pr_debug(
 			"cannot find this buf, layer=%d, idx=%d, fence_idx=%d, timeline_idx=%d, cur_idx=%d!\n",
 			layer_id, idx, layer_info->fence_idx,
 			layer_info->timeline_idx, layer_info->cur_idx);
@@ -802,7 +802,7 @@ unsigned int mtkfb_query_frm_seq_by_addr(unsigned int session_id,
 	layer_info = &(session_info->session_layer_info[layer_id]);
 
 	if (layer_id != layer_info->layer_id) {
-		pr_info("wrong layer id %d(rt), %d(in)!\n",
+		pr_debug("wrong layer id %d(rt), %d(in)!\n",
 			layer_info->layer_id, layer_id);
 		return 0;
 	}

@@ -737,7 +737,7 @@ int ddp_dpi_init(enum DISP_MODULE_ENUM module, void *cmdq)
 #if 0
 	if (request_irq(DPI0_IRQ_BIT_ID, _DPI_InterruptHandler,
 			IRQF_TRIGGER_LOW, "mtkdpi", NULL) < 0) {
-		pr_info("DISP/DPI [ERROR] fail to request DPI irq\n");
+		pr_debug("DISP/DPI [ERROR] fail to request DPI irq\n");
 		return DPI_STATUS_ERROR;
 	}
 
@@ -1065,7 +1065,7 @@ int _Enable_Interrupt(void)
 #if 0
 	if (request_irq(DPI0_IRQ_BIT_ID,
 		_DPI_InterruptHandler, IRQF_TRIGGER_LOW, "mtkdpi", NULL) < 0) {
-		pr_info("DISP/DPI [ERROR] fail to request DPI irq\n");
+		pr_debug("DISP/DPI [ERROR] fail to request DPI irq\n");
 		return DPI_STATUS_ERROR;
 	}
 #endif

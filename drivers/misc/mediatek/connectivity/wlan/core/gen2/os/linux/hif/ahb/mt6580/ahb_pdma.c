@@ -65,7 +65,7 @@
 #if (CONF_MTK_AHB_DMA == 1)
 /* #define GDMA_DEBUG_SUP */
 #ifdef GDMA_DEBUG_SUP
-#define GDMA_DBG	pr_info
+#define GDMA_DBG	pr_debug
 #else
 #define GDMA_DBG(_fmt, ...)
 #endif /* GDMA_DEBUG_SUP */

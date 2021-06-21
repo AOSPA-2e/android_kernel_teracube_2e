@@ -219,7 +219,7 @@ static void process_dbg_opt(const char *opt)
 
 		ret = kstrtouint(p, 0, &vfp);
 		if (ret) {
-			pr_info("error to parse cmd %s\n", opt);
+			pr_debug("error to parse cmd %s\n", opt);
 			return;
 		}
 
@@ -319,7 +319,7 @@ static void process_dbg_opt(const char *opt)
 			if (ret != 3) {
 				snprintf(buf, 50, "error to parse cmd %s\n",
 					 opt);
-				pr_info("error to parse cmd %s\n", opt);
+				pr_debug("error to parse cmd %s\n", opt);
 				return;
 			}
 

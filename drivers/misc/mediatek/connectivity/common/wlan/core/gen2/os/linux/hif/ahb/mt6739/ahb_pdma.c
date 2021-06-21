@@ -88,7 +88,7 @@
 /* #define PDMA_DEBUG_SUP */
 
 #ifdef PDMA_DEBUG_SUP
-#define PDMA_DBG	pr_info
+#define PDMA_DBG	pr_debug
 #else
 #define PDMA_DBG(_fmt, ...)
 #endif /* PDMA_DEBUG_SUP */

@@ -94,7 +94,7 @@ do { if (gDbgLevel >= GPS_LOG_DBG)	\
 } while (0)
 #define GPS_INFO_FUNC(fmt, arg...)	\
 do { if (gDbgLevel >= GPS_LOG_INFO)	\
-		pr_info(PFX "[I]%s: "  fmt, __func__, ##arg);	\
+		pr_debug(PFX "[I]%s: "  fmt, __func__, ##arg);	\
 } while (0)
 #define GPS_WARN_FUNC(fmt, arg...)	\
 do { if (gDbgLevel >= GPS_LOG_WARN)	\
@@ -1164,7 +1164,7 @@ static int GPS_init(void)
 
 	gps_wake_lock_ptr = wakeup_source_register("gpswakelock");
 	if (!gps_wake_lock_ptr) {
-		pr_info("%s %d: init wakeup source fail!", __func__, __LINE__);
+		pr_debug("%s %d: init wakeup source fail!", __func__, __LINE__);
 		goto error;
 	}
 

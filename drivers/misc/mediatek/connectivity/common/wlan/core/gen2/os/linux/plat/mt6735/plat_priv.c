@@ -29,7 +29,7 @@ INT32 kalBoostCpu(P_GLUE_INFO_T prGlueInfo, UINT_32 core_num)
 	GL_HIF_INFO_T *prHifInfo = NULL;
 
 	if (prGlueInfo  == NULL) {
-		pr_info("[kalBoostCpu] Unable to get prGlueInfo\n");
+		pr_debug("[kalBoostCpu] Unable to get prGlueInfo\n");
 		return 0;
 	}
 
@@ -37,11 +37,11 @@ INT32 kalBoostCpu(P_GLUE_INFO_T prGlueInfo, UINT_32 core_num)
 		prHifInfo = &prGlueInfo->rHifInfo;
 
 	if (prHifInfo == NULL) {
-		pr_info("[kalBoostCpu] Unable to get prHifInfo\n");
+		pr_debug("[kalBoostCpu] Unable to get prHifInfo\n");
 		return 0;
 	}
 
-	pr_info("enter kalBoostCpu, core_num:%d\n", core_num);
+	pr_debug("enter kalBoostCpu, core_num:%d\n", core_num);
 	cpu_num = core_num;
 	if (cpu_num != 0)
 		cpu_num = 4; /* There are only 4 cores for MT6735 */
@@ -55,17 +55,17 @@ INT32 kalBoostCpu(P_GLUE_INFO_T prGlueInfo, UINT_32 core_num)
 		core_to_set.min = -1;	/* -1 means don't care */
 		freq_to_set.min = -1;	/* -1 means don't care */
 	}
-	pr_info("update userlimit with cpuNum=%d freq=%d\n", core_to_set.min, freq_to_set.min);
+	pr_debug("update userlimit with cpuNum=%d freq=%d\n", core_to_set.min, freq_to_set.min);
 
 	update_userlimit_cpu_freq(PPM_KIR_WIFI, CLUSTER_NUM, &freq_to_set);
 	update_userlimit_cpu_core(PPM_KIR_WIFI, CLUSTER_NUM, &core_to_set);
 	if ((core_num >= 2) && (u1VcoreEnb == 0 || prHifInfo->fgDmaUsleepEnable)) {
-		pr_info("enable vcore raise\n");
+		pr_debug("enable vcore raise\n");
 		vcorefs_request_dvfs_opp(KIR_WIFI, OPPI_PERF_ULTRA);
 		prHifInfo->fgDmaUsleepEnable = FALSE;
 		u1VcoreEnb = 1;
 	} else if ((core_num < 2) && (u1VcoreEnb == 1)) {
-		pr_info("disable vcore raise\n");
+		pr_debug("disable vcore raise\n");
 		vcorefs_request_dvfs_opp(KIR_WIFI, OPPI_UNREQ);
 		prHifInfo->fgDmaUsleepEnable = TRUE;
 		u1VcoreEnb = 0;

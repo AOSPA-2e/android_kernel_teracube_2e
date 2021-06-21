@@ -33,7 +33,7 @@ static UINT32 gDbgLevel = BT_LOG_INFO;
 #define BT_LOG_PRT_DBG(fmt, arg...)	\
 	do { if (gDbgLevel >= BT_LOG_DBG) pr_debug(PFX "%s: " fmt, __func__, ##arg); } while (0)
 #define BT_LOG_PRT_INFO(fmt, arg...)	\
-	do { if (gDbgLevel >= BT_LOG_INFO) pr_info(PFX "%s: " fmt, __func__, ##arg); } while (0)
+	do { if (gDbgLevel >= BT_LOG_INFO) pr_debug(PFX "%s: " fmt, __func__, ##arg); } while (0)
 #define BT_LOG_PRT_WARN(fmt, arg...)	\
 	do { if (gDbgLevel >= BT_LOG_WARN) pr_warn(PFX "%s: " fmt, __func__, ##arg); } while (0)
 #define BT_LOG_PRT_ERR(fmt, arg...)	\

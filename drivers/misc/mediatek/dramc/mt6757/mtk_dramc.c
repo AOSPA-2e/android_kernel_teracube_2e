@@ -133,7 +133,7 @@ static int __init dram_dummy_read_fixup(void)
 
 	/* Success to acquire memory */
 	if (ret == 0) {
-		pr_info("%s: %pa\n", __func__, &dram_rank1_addr);
+		pr_debug("%s: %pa\n", __func__, &dram_rank1_addr);
 		return 0;
 	}
 
@@ -177,7 +177,7 @@ static int __init dt_scan_dram_info(unsigned long node, const char *uname,
 		g_dram_info_dummy_read = &dram_info_dummy_read;
 		dram_info_dummy_read.rank_num = get_dram_info->rank_num;
 		dram_rank_num = get_dram_info->rank_num;
-		pr_info("[DRAMC] dram info dram rank number = %d\n",
+		pr_debug("[DRAMC] dram info dram rank number = %d\n",
 			g_dram_info_dummy_read->rank_num);
 
 		if ((dram_rank_num == SINGLE_RANK) ||
@@ -186,7 +186,7 @@ static int __init dt_scan_dram_info(unsigned long node, const char *uname,
 			    dram_rank0_addr;
 			dram_info_dummy_read.rank_info[1].start =
 			    dram_rank0_addr;
-			pr_info("[DRAMC] dram info dram rank0 base = 0x%llx\n",
+			pr_debug("[DRAMC] dram info dram rank0 base = 0x%llx\n",
 				g_dram_info_dummy_read->rank_info[0].start);
 		} else if (dram_rank_num == DUAL_RANK) {
 			/* No dummy read address for rank1, try to fix it up */
@@ -206,9 +206,9 @@ static int __init dt_scan_dram_info(unsigned long node, const char *uname,
 			else
 				dram_info_dummy_read.rank_info[1].start =
 				    dram_rank1_addr;
-			pr_info("[DRAMC] dram info dram rank0 base = 0x%llx\n",
+			pr_debug("[DRAMC] dram info dram rank0 base = 0x%llx\n",
 				g_dram_info_dummy_read->rank_info[0].start);
-			pr_info("[DRAMC] dram info dram rank1 base = 0x%llx\n",
+			pr_debug("[DRAMC] dram info dram rank1 base = 0x%llx\n",
 				g_dram_info_dummy_read->rank_info[1].start);
 		} else {
 			No_DummyRead = 1;
@@ -695,7 +695,7 @@ unsigned int mt_dramc_chn_get(unsigned int emi_cona)
 	case 1:
 		return 2;
 	default:
-		pr_info("[LastDRAMC] invalid channel num (emi_cona = 0x%x)\n",
+		pr_debug("[LastDRAMC] invalid channel num (emi_cona = 0x%x)\n",
 			emi_cona);
 	}
 	return 0;
@@ -747,7 +747,7 @@ unsigned int read_dram_mode_reg_by_rank(unsigned int mr_index,
 	local_irq_save(save_flags);
 
 	if (acquire_dram_ctrl() != 0) {
-		pr_info("[DRAMC] can NOT get SPM HW SEMAPHORE!\n");
+		pr_debug("[DRAMC] can NOT get SPM HW SEMAPHORE!\n");
 		local_irq_restore(save_flags);
 		return -1;
 	}
@@ -764,7 +764,7 @@ unsigned int read_dram_mode_reg_by_rank(unsigned int mr_index,
 	Reg_Sync_Writel(DRAMC_AO_MRS, temp);
 
 	if (release_dram_ctrl() != 0)
-		pr_info("[DRAMC] release SPM HW SEMAPHORE fail!\n");
+		pr_debug("[DRAMC] release SPM HW SEMAPHORE fail!\n");
 
 	local_irq_restore(save_flags);
 
@@ -1072,8 +1072,8 @@ int Binning_DRAM_complex_mem_test(void)
 	MEM32_BASE = (unsigned int *)ptr;
 	MEM_BASE = (unsigned int *)ptr;
 	/*pr_debug("Test DRAM start address 0x%lx\n", (unsigned long)ptr);*/
-	pr_info("Test DRAM start address %p\n", ptr);
-	pr_info("Test DRAM SIZE 0x%x\n", MEM_TEST_SIZE);
+	pr_debug("Test DRAM start address %p\n", ptr);
+	pr_debug("Test DRAM SIZE 0x%x\n", MEM_TEST_SIZE);
 	size = len >> 2;
 
 	/* === Verify the tied bits (tied high) === */
@@ -1398,7 +1398,7 @@ int Binning_DRAM_complex_mem_test(void)
 		}
 		pattern32++;
 	}
-	pr_info("complex R/W mem test pass\n");
+	pr_debug("complex R/W mem test pass\n");
 
 fail:
 	vfree(ptr);
@@ -1559,7 +1559,7 @@ int dram_dummy_read_reserve_mem_of_init(struct reserved_mem *rmem)
 		}
 		dram_rank0_addr = rptr;
 		dram_rank_num++;
-		pr_info("[%s] dram_rank0_addr = %pa, size = 0x%x\n", __func__,
+		pr_debug("[%s] dram_rank0_addr = %pa, size = 0x%x\n", __func__,
 			&dram_rank0_addr, rsize);
 	}
 
@@ -1571,7 +1571,7 @@ int dram_dummy_read_reserve_mem_of_init(struct reserved_mem *rmem)
 		}
 		dram_rank1_addr = rptr;
 		dram_rank_num++;
-		pr_info("[%s] dram_rank1_addr = %pa, size = 0x%x\n", __func__,
+		pr_debug("[%s] dram_rank1_addr = %pa, size = 0x%x\n", __func__,
 			&dram_rank1_addr, rsize);
 	}
 
@@ -1984,33 +1984,33 @@ static unsigned int get_vddq(void)
 static void print_HQA_voltage(void)
 {
 #if defined(HVCORE_HVDRAM)
-	pr_info("[HQA] Vcore HV, Vdram HV\n");
+	pr_debug("[HQA] Vcore HV, Vdram HV\n");
 #elif defined(NVCORE_NVDRAM)
-	pr_info("[HQA] Vcore NV, Vdram NV\n");
+	pr_debug("[HQA] Vcore NV, Vdram NV\n");
 #elif defined(LVCORE_LVDRAM)
-	pr_info("[HQA] Vcore LV, Vdram LV\n");
+	pr_debug("[HQA] Vcore LV, Vdram LV\n");
 #elif defined(HVCORE_LVDRAM)
-	pr_info("[HQA] Vcore HV, Vdram LV\n");
+	pr_debug("[HQA] Vcore HV, Vdram LV\n");
 #elif defined(LVCORE_HVDRAM)
-	pr_info("[HQA] Vcore LV, Vdram HV\n");
+	pr_debug("[HQA] Vcore LV, Vdram HV\n");
 #else
-	pr_info("[HQA] Undefined HQA condition\n");
+	pr_debug("[HQA] Undefined HQA condition\n");
 #endif
 
 #ifdef CONFIG_MTK_PMIC_CHIP_MT6355
-	pr_info("[HQA] Vcore = %d uV (should be %d uV)\n",
+	pr_debug("[HQA] Vcore = %d uV (should be %d uV)\n",
 		regulator_get_voltage(_reg_VCORE), hqa_vcore);
-	pr_info("[HQA] Vdram = %d uV (should be %d uV)\n", get_vdram(),
+	pr_debug("[HQA] Vdram = %d uV (should be %d uV)\n", get_vdram(),
 		HQA_VDRAM);
-	pr_info("[HQA] vddq = %d uV (should be %d uV)\n", get_vddq(), HQA_VDDQ);
+	pr_debug("[HQA] vddq = %d uV (should be %d uV)\n", get_vddq(), HQA_VDDQ);
 #else
-	pr_info("[HQA] Vcore = %d mV(should be %d mV)\n",
+	pr_debug("[HQA] Vcore = %d mV(should be %d mV)\n",
 		calculate_voltage(upmu_get_reg_value(MT6351_BUCK_VCORE_CON4)),
 		calculate_voltage(hqa_vcore));
-	pr_info("[HQA] Vdram = 0x%x (should be 0x%x)\n", get_vdram(),
+	pr_debug("[HQA] Vdram = 0x%x (should be 0x%x)\n", get_vdram(),
 		HQA_VDRAM);
 #ifdef HQA_LPDDR4X
-	pr_info("[HQA] vddq = 0x%x (should be 0x%x)\n", get_vddq(), HQA_VDDQ);
+	pr_debug("[HQA] vddq = 0x%x (should be 0x%x)\n", get_vddq(), HQA_VDDQ);
 #endif
 #endif
 }
@@ -2055,13 +2055,13 @@ static int __init dram_hqa_init(void)
 	}
 
 	if (mt_get_chip_hw_ver() == 0xCA00) {
-		pr_info("[HQA] set Vcore to HPM\n");
+		pr_debug("[HQA] set Vcore to HPM\n");
 		hqa_vcore = HQA_VCORE_HPM;
 	} else if (mt_get_chip_hw_ver() == 0xCA01) {
-		pr_info("[HQA] set Vcore to LPM\n");
+		pr_debug("[HQA] set Vcore to LPM\n");
 		hqa_vcore = HQA_VCORE_LPM;
 	} else if (mt_get_chip_hw_ver() == 0xCB01) {
-		pr_info("[HQA] set Vcore to HPM\n");
+		pr_debug("[HQA] set Vcore to HPM\n");
 		hqa_vcore = HQA_VCORE_HPM;
 	} else {
 		pr_debug("[HQA] chip ID error!\n");
@@ -2113,10 +2113,10 @@ static int __init dram_test_init(void)
 #endif
 
 	DRAM_TYPE = (readl(PDEF_DRAMC0_CHA_REG_010) & 0x1C00) >> 10;
-	pr_info("[DRAMC Driver] dram type =%d\n", get_ddr_type());
+	pr_debug("[DRAMC Driver] dram type =%d\n", get_ddr_type());
 
 	CBT_MODE = (readl(PDEF_DRAMC0_CHA_REG_01C) & 0xF000) >> 13;
-	pr_info("[DRAMC Driver] cbt mode =%d\n", CBT_MODE);
+	pr_debug("[DRAMC Driver] cbt mode =%d\n", CBT_MODE);
 
 	switch (CBT_MODE) {
 	case NORMAL_MODE:
@@ -2140,8 +2140,8 @@ static int __init dram_test_init(void)
 		break;
 	}
 
-	pr_info("[DRAMC Driver] Dram Data Rate = %d\n", get_dram_data_rate());
-	pr_info("[DRAMC Driver] shuffle_status = %d\n", get_shuffle_status());
+	pr_debug("[DRAMC Driver] Dram Data Rate = %d\n", get_dram_data_rate());
+	pr_debug("[DRAMC Driver] shuffle_status = %d\n", get_shuffle_status());
 
 	if ((DRAM_TYPE == TYPE_LPDDR4) || (DRAM_TYPE == TYPE_LPDDR4X)) {
 		low_freq_counter = 10;
@@ -2151,7 +2151,7 @@ static int __init dram_test_init(void)
 			pr_debug("[DRAMC Driver] Error in ZQCS mod_timer\n");
 	}
 	if (dram_can_support_fh())
-		pr_info("[DRAMC Driver] dram can support DFS\n");
+		pr_debug("[DRAMC Driver] dram can support DFS\n");
 	else
 		pr_debug("[DRAMC Driver] dram can not support DFS\n");
 
@@ -2160,13 +2160,13 @@ static int __init dram_test_init(void)
 	     (get_dram_info->rank_info[0].size ==
 	      get_dram_info->rank_info[1].size))) {
 		ret = enter_pasr_dpd_config(0, 0xFF);
-		pr_info(
+		pr_debug(
 		    "[DRAMC Driver] Low power PASR rank1 segment off !!!\n");
 		if (ret != 0)
 			pr_debug(
 			    "[DRAMC Driver] Low power PASR rank1 fail !!!\n");
 	} else
-		pr_info("[DRAMC Driver] Low power PASR normal flow !!!\n");
+		pr_debug("[DRAMC Driver] Low power PASR normal flow !!!\n");
 
 	return ret;
 }

@@ -31,7 +31,7 @@ int infra_set_event(const struct plt_cfg_bus_latch *self, const char *buf)
 		if (arg == NULL)
 			return -EINVAL;
 		if (kstrtoul(arg, 16, &input) != 0) {
-			pr_info("%s:%d: kstrtoul fail for %s\n",
+			pr_debug("%s:%d: kstrtoul fail for %s\n",
 				 __func__, __LINE__, p);
 			return -1;
 		}
@@ -76,7 +76,7 @@ int infra_set_timeout(const struct plt_cfg_bus_latch *self, const char *buf)
 		if (arg == NULL)
 			return -EINVAL;
 		if (kstrtoul(arg, 16, &input) != 0) {
-			pr_info("%s:%d: kstrtoul fail for %s\n",
+			pr_debug("%s:%d: kstrtoul fail for %s\n",
 				 __func__, __LINE__, p);
 			return -1;
 		}
@@ -118,7 +118,7 @@ int peri_set_event(const struct plt_cfg_bus_latch *self, const char *buf)
 	unsigned long input;
 
 	if (kstrtoul(p, 16, &input) != 0) {
-		pr_info("%s:%d: kstrtoul fail for %s\n",
+		pr_debug("%s:%d: kstrtoul fail for %s\n",
 			 __func__, __LINE__, p);
 		return -1;
 	}
@@ -269,23 +269,23 @@ int infra_timeout_dump(void)
 	unsigned int i;
 	void __iomem *infra_base = lb->infra_base;
 
-	pr_info("[LAST BUS] PERISYS BUS & INFRA BUS DUMP:\n");
+	pr_debug("[LAST BUS] PERISYS BUS & INFRA BUS DUMP:\n");
 
 	/* infrabus_dbg_in_0 */
-	pr_info("%08x\n", readl(infra_base +
+	pr_debug("%08x\n", readl(infra_base +
 		lb->infrasys_offsets.bus_infra_mask_l));
 
 	/* infrabus_dbg_mask_2 */
-	pr_info("%08x\n", readl(infra_base +
+	pr_debug("%08x\n", readl(infra_base +
 		lb->infrasys_offsets.bus_infra_mask_h));
 
 	/* infrabus_dbg_in_1 */
-	pr_info("%08x\n", readl(infra_base +
+	pr_debug("%08x\n", readl(infra_base +
 		lb->infrasys_offsets.bus_infra_ctrl));
 
 	if (lb->num_infrasys_mon != 0) {
 		for (i = 0; i <= lb->num_infrasys_mon-1; ++i)
-			pr_info("%08x\n",
+			pr_debug("%08x\n",
 			readl(infra_base +
 			lb->infrasys_offsets.bus_infra_snapshot
 			+ 4*i));
@@ -304,17 +304,17 @@ int peri_timeout_dump(void)
 	unsigned int data;
 
 	/* peribus_dbg_in_0 */
-	pr_info("%08x\n", readl(peri_base +
+	pr_debug("%08x\n", readl(peri_base +
 		lb->perisys_offsets.bus_peri_r0));
 
 	/* peribus_dbg_in_1 */
-	pr_info("%08x\n", readl(peri_base +
+	pr_debug("%08x\n", readl(peri_base +
 		lb->perisys_offsets.bus_peri_r1));
 
 	for (i = 0; i < dump_size; ++i) {
 		reg = peri_base + preisys_dump_offset[i];
 		data = readl(reg);
-		pr_info("%08x\n", data);
+		pr_debug("%08x\n", data);
 	}
 
 	return 0;
@@ -325,7 +325,7 @@ int is_infra_timeout(void)
 	int ctrl = 0;
 
 	if (!lb->infra_base) {
-		pr_info("%s:%d: not ready\n", __func__, __LINE__);
+		pr_debug("%s:%d: not ready\n", __func__, __LINE__);
 
 		return 0;
 	}
@@ -341,7 +341,7 @@ int is_peri_timeout(void)
 	int ctrl = 0;
 
 	if (!lb->peri_base) {
-		pr_info("%s:%d: not ready\n", __func__, __LINE__);
+		pr_debug("%s:%d: not ready\n", __func__, __LINE__);
 
 		return 0;
 	}
@@ -376,7 +376,7 @@ int lastbus_timeout_dump(void)
 	spin_lock_irqsave(&lastbus_spin_lock, flags);
 
 	if (!lb->peri_base || !lb->infra_base) {
-		pr_info("%s:%d: not ready\n", __func__, __LINE__);
+		pr_debug("%s:%d: not ready\n", __func__, __LINE__);
 
 		spin_unlock_irqrestore(&lastbus_spin_lock, flags);
 

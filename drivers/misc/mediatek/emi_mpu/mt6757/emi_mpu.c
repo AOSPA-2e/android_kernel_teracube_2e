@@ -1246,7 +1246,7 @@ static int mpu_check_violation(void)
 /*EMI MPU violation handler*/
 static irqreturn_t mpu_violation_irq(int irq, void *dev_id)
 {
-	pr_info("It's a MPU violation.\n");
+	pr_debug("It's a MPU violation.\n");
 	mpu_check_violation();
 	return IRQ_HANDLED;
 }
@@ -2083,7 +2083,7 @@ static int __init emi_mpu_mod_init(void)
 	*((volatile unsigned int *)(mpu_test_buffer + 0x10000)) = 0xdeaddead;
 #endif
 
-	pr_info("Initialize EMI MPU.\n");
+	pr_debug("Initialize EMI MPU.\n");
 
 	isetocunt = 0;
 

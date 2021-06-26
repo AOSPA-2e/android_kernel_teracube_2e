@@ -59,7 +59,7 @@ static int mir3da_sc_ReadSensorData(uint32_t *value)
 {
 	*value = mir3da_sc_get_step();
 
-	pr_info("Step Counter Data - %04x\n", (*value));
+	pr_debug("Step Counter Data - %04x\n", (*value));
 
 	return 0;
 }
@@ -76,7 +76,7 @@ static int mir3da_sc_init_client(bool enable)
 	
 	printk("zzz exit mir3da_sc_init");
 
-	pr_info("mir3da_sc_init_client OK!\n");
+	pr_debug("mir3da_sc_init_client OK!\n");
 
 	// return MIR3DA_SUCCESS;
 	return 0;
@@ -260,7 +260,7 @@ static int mir3da_sc_smd_flush(void)
 static int mir3da_sc_floor_c_enable_nodata(int en)
 {
 
-	pr_info("mir3da_sc_floor_c_enable_nodata OK!\n");
+	pr_debug("mir3da_sc_floor_c_enable_nodata OK!\n");
 	return 0;
 }
 
@@ -320,7 +320,7 @@ static int mir3da_sc_attr_create(void)
 	
 	printk("zzz mir3da_sc_attr_create");
 
-	pr_info();
+	pr_debug();
 
 	res = mir3da_sc_init_client(false);
 	if (res)
@@ -394,7 +394,7 @@ static int mir3da_sc_attr_create(void)
 
 	printk("zzz exit mir3da_sc_attr_create");
 
-	pr_info("%s: OK\n", __func__);
+	pr_debug("%s: OK\n", __func__);
 	return 0;
 
 exit_misc_device_register_failed:

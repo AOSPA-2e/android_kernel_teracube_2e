@@ -175,7 +175,7 @@ static long dev_char_ioctl(struct file *file, unsigned int cmd,
 			/* gpio: bit 0-11 */
 			gpio_id = (unsigned long)((para & 0x0FFF0000) > 16);
 			en = (para & 0xF);
-			pr_info("[IRTX] IRTX_IOC_SET_IRTX_LED_EN: 0x%x, "
+			pr_debug("[IRTX] IRTX_IOC_SET_IRTX_LED_EN: 0x%x, "
 				"gpio_id:%ul, en:%ul\n",
 				para, gpio_id, en);
 
@@ -433,11 +433,11 @@ static int __init irtx_init(void)
 {
 	int ret = 0;
 
-	pr_info("[IRTX] irtx init\n");
+	pr_debug("[IRTX] irtx init\n");
 #ifdef CONFIG_OF
 	irtx_driver.driver.of_match_table = irtx_of_ids;
 #else
-	pr_info("[IRTX] irtx needs device tree!\n");
+	pr_debug("[IRTX] irtx needs device tree!\n");
 #endif
 
 	ret = platform_driver_register(&irtx_driver);

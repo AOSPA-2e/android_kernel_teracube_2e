@@ -67,7 +67,7 @@
 #define pr_fmt(fmt)     "[adsp_dvfs]: " fmt
 
 #define ADSP_DBG(fmt, arg...) pr_debug(fmt, ##arg)
-#define ADSP_INFO(fmt, arg...) pr_info(fmt, ##arg)
+#define ADSP_INFO(fmt, arg...) pr_debug(fmt, ##arg)
 
 #define DRV_Reg32(addr)           readl(addr)
 #define DRV_WriteReg32(addr, val) writel(val, addr)
@@ -634,7 +634,7 @@ void adsp_suspend(enum adsp_core_id core_id)
 			usleep_range(100, 200);
 
 		if (!is_adsp_suspend()) {
-			pr_info("[%s]wait adsp suspend timeout ret(%d,%d)\n",
+			pr_debug("[%s]wait adsp suspend timeout ret(%d,%d)\n",
 				__func__, ret, timeout);
 #ifdef CFG_RECOVERY_SUPPORT
 			adsp_send_reset_wq(ADSP_RESET_TYPE_AWAKE, core_id);

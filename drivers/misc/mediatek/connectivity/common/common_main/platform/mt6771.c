@@ -235,7 +235,7 @@ INT32 mtk_wcn_consys_jtag_set_for_mcu(VOID)
 			goto error;
 		}
 
-		WMT_PLAT_PR_INFO("WCN jtag set for mcu start...\n");
+		WMT_PLAT_PR_LOUD("WCN jtag set for mcu start...\n");
 		switch (gJtagCtrl) {
 		case 1:
 			/* 7-wire jtag pinmux setting*/
@@ -247,7 +247,7 @@ INT32 mtk_wcn_consys_jtag_set_for_mcu(VOID)
 			tmp = tmp | 0x33333330;
 			writel(tmp, addr);
 			tmp = readl(addr);
-			WMT_PLAT_PR_INFO("(RegAddr, RegVal):(0x%p, 0x%x)\n", addr, tmp);
+			WMT_PLAT_PR_LOUD("(RegAddr, RegVal):(0x%p, 0x%x)\n", addr, tmp);
 
 			/* PAD Driving Selection */
 			addr = remap_addr2 + 0xA0;
@@ -256,7 +256,7 @@ INT32 mtk_wcn_consys_jtag_set_for_mcu(VOID)
 			tmp = tmp | 0x00077000;
 			writel(tmp, addr);
 			tmp = readl(addr);
-			WMT_PLAT_PR_INFO("(RegAddr, RegVal):(0x%p, 0x%x)\n", addr, tmp);
+			WMT_PLAT_PR_LOUD("(RegAddr, RegVal):(0x%p, 0x%x)\n", addr, tmp);
 
 			/* PAD PULL Selection */
 			addr = remap_addr2 + 0x60;
@@ -264,14 +264,14 @@ INT32 mtk_wcn_consys_jtag_set_for_mcu(VOID)
 			tmp = tmp & 0xfffe03ff;
 			writel(tmp, addr);
 			tmp = readl(addr);
-			WMT_PLAT_PR_INFO("(RegAddr, RegVal):(0x%p, 0x%x)\n", addr, tmp);
+			WMT_PLAT_PR_LOUD("(RegAddr, RegVal):(0x%p, 0x%x)\n", addr, tmp);
 
 			addr = remap_addr2 + 0x60;
 			tmp = readl(addr);
 			tmp = tmp & 0xfff80fff;
 			writel(tmp, addr);
 			tmp = readl(addr);
-			WMT_PLAT_PR_INFO("(RegAddr, RegVal):(0x%p, 0x%x)\n", addr, tmp);
+			WMT_PLAT_PR_LOUD("(RegAddr, RegVal):(0x%p, 0x%x)\n", addr, tmp);
 
 #else
 			/* backup */
@@ -282,7 +282,7 @@ INT32 mtk_wcn_consys_jtag_set_for_mcu(VOID)
 			tmp = tmp | 0x00000444;
 			writel(tmp, addr);
 			tmp = readl(addr);
-			WMT_PLAT_PR_INFO("(RegAddr, RegVal):(0x%p, 0x%x)\n", addr, tmp);
+			WMT_PLAT_PR_LOUD("(RegAddr, RegVal):(0x%p, 0x%x)\n", addr, tmp);
 
 			addr = remap_addr1 + 0x3C0;
 			tmp = readl(addr);
@@ -290,7 +290,7 @@ INT32 mtk_wcn_consys_jtag_set_for_mcu(VOID)
 			tmp = tmp | 0x04400440;
 			writel(tmp, addr);
 			tmp = readl(addr);
-			WMT_PLAT_PR_INFO("(RegAddr, RegVal):(0x%p, 0x%x)\n", addr, tmp);
+			WMT_PLAT_PR_LOUD("(RegAddr, RegVal):(0x%p, 0x%x)\n", addr, tmp);
 
 			/* PAD Driving Selection */
 			addr = remap_addr3 + 0xA0;
@@ -299,7 +299,7 @@ INT32 mtk_wcn_consys_jtag_set_for_mcu(VOID)
 			tmp = tmp | 0x70000007;
 			writel(tmp, addr);
 			tmp = readl(addr);
-			WMT_PLAT_PR_INFO("(RegAddr, RegVal):(0x%p, 0x%x)\n", addr, tmp);
+			WMT_PLAT_PR_LOUD("(RegAddr, RegVal):(0x%p, 0x%x)\n", addr, tmp);
 
 			addr = remap_addr3 + 0xB0;
 			tmp = readl(addr);
@@ -307,7 +307,7 @@ INT32 mtk_wcn_consys_jtag_set_for_mcu(VOID)
 			tmp = tmp | 0x0007070f;
 			writel(tmp, addr);
 			tmp = readl(addr);
-			WMT_PLAT_PR_INFO("(RegAddr, RegVal):(0x%p, 0x%x)\n", addr, tmp);
+			WMT_PLAT_PR_LOUD("(RegAddr, RegVal):(0x%p, 0x%x)\n", addr, tmp);
 
 			/* PAD PULL Selection */
 			addr = remap_addr3 + 0x60;
@@ -315,7 +315,7 @@ INT32 mtk_wcn_consys_jtag_set_for_mcu(VOID)
 			tmp = tmp & 0xf333fffe;
 			writel(tmp, addr);
 			tmp = readl(addr);
-			WMT_PLAT_PR_INFO("(RegAddr, RegVal):(0x%p, 0x%x)\n", addr, tmp);
+			WMT_PLAT_PR_LOUD("(RegAddr, RegVal):(0x%p, 0x%x)\n", addr, tmp);
 #endif
 			break;
 		case 2:
@@ -328,11 +328,11 @@ INT32 mtk_wcn_consys_jtag_set_for_mcu(VOID)
 			tmp = tmp | 0x00034000;
 			writel(tmp, addr);
 			tmp = readl(addr);
-			WMT_PLAT_PR_INFO("(RegAddr, RegVal):(0x%p, 0x%x)\n", addr, tmp);
+			WMT_PLAT_PR_LOUD("(RegAddr, RegVal):(0x%p, 0x%x)\n", addr, tmp);
 #endif
 			break;
 		default:
-			WMT_PLAT_PR_INFO("unsupported options!\n");
+			WMT_PLAT_PR_LOUD("unsupported options!\n");
 		}
 
 	}
@@ -352,7 +352,7 @@ error:
 
 UINT32 mtk_wcn_consys_jtag_flag_ctrl(UINT32 en)
 {
-	WMT_PLAT_PR_INFO("%s jtag set for MCU\n", en ? "enable" : "disable");
+	WMT_PLAT_PR_LOUD("%s jtag set for MCU\n", en ? "enable" : "disable");
 	gJtagCtrl = en;
 	return 0;
 }
@@ -571,7 +571,7 @@ static INT32 polling_consys_chipid(VOID)
 	while (retry-- > 0) {
 		consysHwChipId = CONSYS_REG_READ(conn_reg.mcu_base + CONSYS_CHIP_ID_OFFSET);
 		if (consysHwChipId == 0x0788) {
-			WMT_PLAT_PR_INFO("retry(%d)consys chipId(0x%08x)\n", retry, consysHwChipId);
+			WMT_PLAT_PR_LOUD("retry(%d)consys chipId(0x%08x)\n", retry, consysHwChipId);
 			break;
 		}
 		msleep(20);
@@ -579,13 +579,13 @@ static INT32 polling_consys_chipid(VOID)
 
 	if ((retry == 0) || (consysHwChipId == 0)) {
 		WMT_PLAT_PR_ERR("Maybe has a consys power on issue,(0x%08x)\n", consysHwChipId);
-		WMT_PLAT_PR_INFO("reg dump:CONSYS_CPU_SW_RST_REG(0x%x)\n",
+		WMT_PLAT_PR_LOUD("reg dump:CONSYS_CPU_SW_RST_REG(0x%x)\n",
 				CONSYS_REG_READ(conn_reg.ap_rgu_base + CONSYS_CPU_SW_RST_OFFSET));
-		WMT_PLAT_PR_INFO("reg dump:CONSYS_PWR_CONN_ACK_REG(0x%x)\n",
+		WMT_PLAT_PR_LOUD("reg dump:CONSYS_PWR_CONN_ACK_REG(0x%x)\n",
 				CONSYS_REG_READ(conn_reg.spm_base + CONSYS_PWR_CONN_ACK_OFFSET));
-		WMT_PLAT_PR_INFO("reg dump:CONSYS_PWR_CONN_ACK_S_REG(0x%x)\n",
+		WMT_PLAT_PR_LOUD("reg dump:CONSYS_PWR_CONN_ACK_S_REG(0x%x)\n",
 				CONSYS_REG_READ(conn_reg.spm_base + CONSYS_PWR_CONN_ACK_S_OFFSET));
-		WMT_PLAT_PR_INFO("reg dump:CONSYS_TOP1_PWR_CTRL_REG(0x%x)\n",
+		WMT_PLAT_PR_LOUD("reg dump:CONSYS_TOP1_PWR_CTRL_REG(0x%x)\n",
 				CONSYS_REG_READ(conn_reg.spm_base + CONSYS_TOP1_PWR_CTRL_OFFSET));
 	}
 
@@ -595,7 +595,7 @@ static INT32 polling_consys_chipid(VOID)
 static VOID update_consys_rom_desel(VOID)
 {
 	CONSYS_REG_WRITE(conn_reg.mcu_base + CONSYS_ROM_DESEL_OFFSET, CONSYS_ROM_DESEL_MASK);
-	WMT_PLAT_PR_INFO("Update consys rom desel value(0x%x)\n",
+	WMT_PLAT_PR_LOUD("Update consys rom desel value(0x%x)\n",
 			CONSYS_REG_READ(conn_reg.mcu_base + CONSYS_ROM_DESEL_OFFSET));
 }
 
@@ -613,7 +613,7 @@ static VOID consys_hang_debug_info(VOID)
 	addr_3 = conn_reg.mcu_base + CONSYS_HANG_DBG_OFFSET_3;
 	rv1 = CONSYS_REG_READ(addr_1);
 	rv3 = CONSYS_REG_READ(addr_3);
-	WMT_PLAT_PR_INFO("addr1:%zx:0x%x/addr2:%zx/addr3:%zx:0x%x\n",
+	WMT_PLAT_PR_LOUD("addr1:%zx:0x%x/addr2:%zx/addr3:%zx:0x%x\n",
 			   addr_1, rv1, addr_2, addr_3, rv3);
 
 	wv1[0] = (rv1 & 0xFF0000FF) | (0x0201 << 8);
@@ -623,7 +623,7 @@ static VOID consys_hang_debug_info(VOID)
 	wv1[1] = (rv1 & 0xFF0000FF) | (0x0403 << 8);
 	CONSYS_REG_WRITE(addr_1, wv1[1]);
 	rv2[1] = CONSYS_REG_READ(addr_2);
-	WMT_PLAT_PR_INFO("0x%x->addr1, addr2:0x%x/0x%x->addr1, addr2:0x%x\n",
+	WMT_PLAT_PR_LOUD("0x%x->addr1, addr2:0x%x/0x%x->addr1, addr2:0x%x\n",
 			   wv1[0], rv2[0], wv1[1], rv2[1]);
 
 	for (i = 0; i < 9; i++) {
@@ -637,11 +637,11 @@ static VOID consys_hang_debug_info(VOID)
 		wv1[1] = (rv1 & 0xFF0000FF) | (0x5453 << 8);
 		CONSYS_REG_WRITE(addr_1, wv1[1]);
 		rv2[1] = CONSYS_REG_READ(addr_2);
-		WMT_PLAT_PR_INFO("0x%x->addr3,0x%x->addr1,addr2:0x%x/0x%x->addr1,addr2:0x%x\n",
+		WMT_PLAT_PR_LOUD("0x%x->addr3,0x%x->addr1,addr2:0x%x/0x%x->addr1,addr2:0x%x\n",
 				   wv3, wv1[0], rv2[0], wv1[1], rv2[1]);
 	}
 
-	WMT_PLAT_PR_INFO("apb0_dbg_prob\n");
+	WMT_PLAT_PR_LOUD("apb0_dbg_prob\n");
 	for (i = 0; i < 10; i++) {
 		wv3 = (rv3 & 0xFFFF0FFF) | (i << 12);
 		CONSYS_REG_WRITE(addr_3, wv3);
@@ -653,11 +653,11 @@ static VOID consys_hang_debug_info(VOID)
 		wv1[1] = (rv1 & 0xFF0000FF) | (0x5857 << 8);
 		CONSYS_REG_WRITE(addr_1, wv1[1]);
 		rv2[1] = CONSYS_REG_READ(addr_2);
-		WMT_PLAT_PR_INFO("0x%x->addr3,0x%x->addr1,addr2:0x%x/0x%x->addr1,addr2:0x%x\n",
+		WMT_PLAT_PR_LOUD("0x%x->addr3,0x%x->addr1,addr2:0x%x/0x%x->addr1,addr2:0x%x\n",
 				   wv3, wv1[0], rv2[0], wv1[1], rv2[1]);
 	}
 
-	WMT_PLAT_PR_INFO("apb1_dbg_prob\n");
+	WMT_PLAT_PR_LOUD("apb1_dbg_prob\n");
 	for (i = 0; i < 10; i++) {
 		wv3 = (rv3 & 0xFF0FFFFF) | (i << 20);
 		CONSYS_REG_WRITE(addr_3, wv3);
@@ -669,7 +669,7 @@ static VOID consys_hang_debug_info(VOID)
 		wv1[1] = (rv1 & 0xFF0000FF) | (0x5C5B << 8);
 		CONSYS_REG_WRITE(addr_1, wv1[1]);
 		rv2[1] = CONSYS_REG_READ(addr_2);
-		WMT_PLAT_PR_INFO("0x%x->addr3,0x%x->addr1,addr2:0x%x/0x%x->addr1,addr2:0x%x\n",
+		WMT_PLAT_PR_LOUD("0x%x->addr3,0x%x->addr1,addr2:0x%x/0x%x->addr1,addr2:0x%x\n",
 				   wv3, wv1[0], rv2[0], wv1[1], rv2[1]);
 	}
 }
@@ -775,12 +775,12 @@ static INT32 consys_hw_vcn28_ctrl(UINT32 enable)
 			if (regulator_enable(reg_VCN28))
 				WMT_PLAT_PR_ERR("WMT do VCN28 PMIC on fail!\n");
 		}
-		WMT_PLAT_PR_INFO("turn on vcn28 for fm/gps usage in co-clock mode\n");
+		WMT_PLAT_PR_LOUD("turn on vcn28 for fm/gps usage in co-clock mode\n");
 	} else {
 		/*in co-clock mode,need to turn off vcn28 when fm off */
 		if (reg_VCN28)
 			regulator_disable(reg_VCN28);
-		WMT_PLAT_PR_INFO("turn off vcn28 for fm/gps usage in co-clock mode\n");
+		WMT_PLAT_PR_LOUD("turn off vcn28 for fm/gps usage in co-clock mode\n");
 	}
 #endif
 	return 0;
@@ -805,7 +805,7 @@ static INT32 consys_hw_bt_vcn33_ctrl(UINT32 enable)
 			hwPowerOn(MT6351_POWER_LDO_VCN33_BT, VOL_3300 * 1000, "wcn_drv");
 			mt6351_upmu_set_rg_vcn33_on_ctrl(1);
 #endif
-			WMT_PLAT_PR_INFO("WMT do BT/WIFI v3.3 on\n");
+			WMT_PLAT_PR_LOUD("WMT do BT/WIFI v3.3 on\n");
 			gBtWifiV33.counter++;
 		}
 
@@ -817,7 +817,7 @@ static INT32 consys_hw_bt_vcn33_ctrl(UINT32 enable)
 			mt6351_upmu_set_rg_vcn33_on_ctrl(0);
 			hwPowerDown(MT6351_POWER_LDO_VCN33_BT, "wcn_drv");
 #endif
-			WMT_PLAT_PR_INFO("WMT do BT/WIFI v3.3 off\n");
+			WMT_PLAT_PR_LOUD("WMT do BT/WIFI v3.3 off\n");
 			gBtWifiV33.counter--;
 		} else if (gBtWifiV33.counter == 2) {
 			gBtWifiV33.counter--;
@@ -904,7 +904,7 @@ static INT32 consys_emi_mpu_set_region_protection(VOID)
 	struct emi_region_info_t region_info;
 
 	/*set MPU for EMI share Memory */
-	WMT_PLAT_PR_INFO("setting MPU for EMI share memory\n");
+	WMT_PLAT_PR_LOUD("setting MPU for EMI share memory\n");
 
 	region_info.start = gConEmiPhyBase + SZ_1M / 2 - SZ_64K;
 	region_info.end = gConEmiPhyBase + gConEmiSize - 1;
@@ -931,7 +931,7 @@ static UINT32 consys_emi_set_remapping_reg(VOID)
 	CONSYS_REG_WRITE(conn_reg.topckgen_base + CONSYS_EMI_MAPPING_OFFSET,
 			CONSYS_REG_READ(conn_reg.topckgen_base + CONSYS_EMI_MAPPING_OFFSET) | addrPhy);
 
-	WMT_PLAT_PR_INFO("CONSYS_EMI_MAPPING dump in restore cb(0x%08x)\n",
+	WMT_PLAT_PR_LOUD("CONSYS_EMI_MAPPING dump in restore cb(0x%08x)\n",
 			CONSYS_REG_READ(conn_reg.topckgen_base + CONSYS_EMI_MAPPING_OFFSET));
 
 	return 0;
@@ -962,7 +962,7 @@ static INT32 consys_read_irq_info_from_dts(struct platform_device *pdev, PINT32 
 			return iret;
 		}
 		*irq_flag = irq_info[2];
-		WMT_PLAT_PR_INFO("get irq id(%d) and irq trigger flag(%d) from DT\n", *irq_num,
+		WMT_PLAT_PR_LOUD("get irq id(%d) and irq trigger flag(%d) from DT\n", *irq_num,
 				   *irq_flag);
 	} else {
 		WMT_PLAT_PR_ERR("[%s] can't find CONSYS compatible node\n", __func__);
@@ -1001,13 +1001,13 @@ static VOID force_trigger_assert_debug_pin(VOID)
 	CONSYS_REG_WRITE(conn_reg.topckgen_base + CONSYS_AP2CONN_OSC_EN_OFFSET,
 			CONSYS_REG_READ(conn_reg.topckgen_base +
 				CONSYS_AP2CONN_OSC_EN_OFFSET) & ~CONSYS_AP2CONN_WAKEUP_BIT);
-	WMT_PLAT_PR_INFO("enable:dump CONSYS_AP2CONN_OSC_EN_REG(0x%x)\n",
+	WMT_PLAT_PR_LOUD("enable:dump CONSYS_AP2CONN_OSC_EN_REG(0x%x)\n",
 			CONSYS_REG_READ(conn_reg.topckgen_base + CONSYS_AP2CONN_OSC_EN_OFFSET));
 	usleep_range(64, 96);
 	CONSYS_REG_WRITE(conn_reg.topckgen_base + CONSYS_AP2CONN_OSC_EN_OFFSET,
 			CONSYS_REG_READ(conn_reg.topckgen_base +
 				CONSYS_AP2CONN_OSC_EN_OFFSET) | CONSYS_AP2CONN_WAKEUP_BIT);
-	WMT_PLAT_PR_INFO("disable:dump CONSYS_AP2CONN_OSC_EN_REG(0x%x)\n",
+	WMT_PLAT_PR_LOUD("disable:dump CONSYS_AP2CONN_OSC_EN_REG(0x%x)\n",
 			CONSYS_REG_READ(conn_reg.topckgen_base + CONSYS_AP2CONN_OSC_EN_OFFSET));
 }
 
@@ -1036,7 +1036,7 @@ static INT32 consys_emi_coredump_remapping(UINT8 __iomem **addr, UINT32 enable)
 	if (enable) {
 		*addr = ioremap_nocache(gConEmiPhyBase + CONSYS_EMI_COREDUMP_OFFSET, CONSYS_EMI_MEM_SIZE);
 		if (*addr) {
-			WMT_PLAT_PR_INFO("COREDUMP EMI mapping OK virtual(0x%p) physical(0x%x)\n",
+			WMT_PLAT_PR_LOUD("COREDUMP EMI mapping OK virtual(0x%p) physical(0x%x)\n",
 					   *addr, (UINT32) gConEmiPhyBase + CONSYS_EMI_COREDUMP_OFFSET);
 			memset_io(*addr, 0, CONSYS_EMI_MEM_SIZE);
 		} else {
@@ -1058,7 +1058,7 @@ static INT32 consys_reset_emi_coredump(UINT8 __iomem *addr)
 		WMT_PLAT_PR_ERR("get virtual address fail\n");
 		return -1;
 	}
-	WMT_PLAT_PR_INFO("Reset EMI(0xF0080000 ~ 0xF0080400) and (0xF0088400 ~ 0xF0090400)\n");
+	WMT_PLAT_PR_LOUD("Reset EMI(0xF0080000 ~ 0xF0080400) and (0xF0088400 ~ 0xF0090400)\n");
 	/* reset 0xF0080000 ~ 0xF0080400 (1K) */
 	memset_io(addr, 0, 0x400);
 	/* reset 0xF0088400 ~ 0xF0090400 (32K)  */

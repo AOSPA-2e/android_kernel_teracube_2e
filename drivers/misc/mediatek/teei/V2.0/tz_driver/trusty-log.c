@@ -96,7 +96,7 @@ static void trusty_dump_logs(struct trusty_log_state *s)
 			get = alloc - log->sz;
 			continue;
 		}
-		pr_info("trusty: %s", s->line_buffer);
+		pr_debug("trusty: %s", s->line_buffer);
 		get += read_chars;
 	}
 	s->get = get;
@@ -128,7 +128,7 @@ static int trusty_log_panic_notify(struct notifier_block *nb,
 	 * though this is racy.
 	 */
 	s = container_of(nb, struct trusty_log_state, panic_notifier);
-	pr_info("trusty-log panic notifier - trusty version %s",
+	pr_debug("trusty-log panic notifier - trusty version %s",
 		trusty_version_str_get(s->trusty_dev));
 	trusty_dump_logs(s);
 	return NOTIFY_OK;
@@ -141,7 +141,7 @@ static bool trusty_supports_logging(struct device *device)
 	result = trusty_std_call32(device, SMC_SC_SHARED_LOG_VERSION,
 				   TRUSTY_LOG_API_VERSION, 0, 0);
 	if (result == SM_ERR_UNDEFINED_SMC) {
-		pr_info("trusty-log not supported on secure side.\n");
+		pr_debug("trusty-log not supported on secure side.\n");
 		return false;
 	} else if (result < 0) {
 		pr_err("trusty std call (SMC_SC_SHARED_LOG_VERSION) failed: %d\n",
@@ -152,7 +152,7 @@ static bool trusty_supports_logging(struct device *device)
 	if (result == TRUSTY_LOG_API_VERSION) {
 		return true;
 	} else {
-		pr_info("trusty-log unsupported api version: %d, supported: %d\n",
+		pr_debug("trusty-log unsupported api version: %d, supported: %d\n",
 			result, TRUSTY_LOG_API_VERSION);
 		return false;
 	}

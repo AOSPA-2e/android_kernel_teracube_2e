@@ -52,7 +52,7 @@ static bool __always_unused allocate_tui_memory_pool(
 	bool ret = false;
 	void *tui_mem_pool = NULL;
 
-	pr_info("%s %s:%d\n", __func__, __FILE__, __LINE__);
+	pr_debug("%s %s:%d\n", __func__, __FILE__, __LINE__);
 	if (!size) {
 		pr_debug("TUI frame buffer: nothing to allocate.");
 		return true;
@@ -95,7 +95,7 @@ static void __always_unused free_tui_memory_pool(struct tui_mempool *pool)
  */
 uint32_t hal_tui_init(void)
 {
-	pr_info("hal_tui_init\n");
+	pr_debug("hal_tui_init\n");
 
 	/* Allocate memory pool for the framebuffer
 	 */
@@ -264,7 +264,7 @@ uint32_t hal_tui_deactivate(void)
  */
 uint32_t hal_tui_activate(void)
 {
-	pr_info("[TUI-HAL] hal_tui_activate()\n");
+	pr_debug("[TUI-HAL] hal_tui_activate()\n");
 	/* Protect NWd */
 	trustedui_clear_mask(TRUSTEDUI_MODE_VIDEO_SECURED|
 			     TRUSTEDUI_MODE_INPUT_SECURED);
@@ -306,7 +306,7 @@ uint32_t hal_tui_notif(void)
 /* Do nothing it's only use for QC */
 void hal_tui_post_start(struct tlc_tui_response_t *rsp)
 {
-	pr_info("hal_tui_post_start\n");
+	pr_debug("hal_tui_post_start\n");
 }
 
 int __weak tui_region_offline(phys_addr_t *pa, unsigned long *size)

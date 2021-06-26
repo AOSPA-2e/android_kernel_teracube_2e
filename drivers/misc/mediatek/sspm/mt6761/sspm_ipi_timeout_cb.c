@@ -24,7 +24,7 @@ __weak void usb_dump_debug_register(void) {}
 void sspm_ipi_timeout_cb(int ipi_id)
 {
 	/* for debug EMI use */
-	pr_info("%s: dump_emi_outstanding\n", __func__);
+	pr_debug("%s: dump_emi_outstanding\n", __func__);
 	dump_emi_outstanding();
 }
 

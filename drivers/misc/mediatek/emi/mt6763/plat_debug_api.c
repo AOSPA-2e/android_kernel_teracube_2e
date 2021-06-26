@@ -42,7 +42,7 @@ void plat_debug_api_init(void)
 			"mediatek,infracfg");
 		if (node) {
 			INFRACFG_BASE = of_iomap(node, 0);
-			pr_info("[EMI DBG] INFRACFG_BASE@ %p\n",
+			pr_debug("[EMI DBG] INFRACFG_BASE@ %p\n",
 				INFRACFG_BASE);
 		} else
 			pr_debug("[EMI DBG] no node for INFRACFG_BASE\n");
@@ -53,7 +53,7 @@ void plat_debug_api_init(void)
 			"mediatek,infracfg_ao");
 		if (node) {
 			INFRA_AO_BASE = of_iomap(node, 0);
-			pr_info("[EMI DBG] INFRA_AO_BASE@ %p\n",
+			pr_debug("[EMI DBG] INFRA_AO_BASE@ %p\n",
 				INFRA_AO_BASE);
 		} else
 			pr_debug("[EMI DBG] no node for INFRA_AO_BASE\n");
@@ -64,7 +64,7 @@ void plat_debug_api_init(void)
 			"mediatek,pericfg");
 		if (node) {
 			PERICFG_BASE = of_iomap(node, 0);
-			pr_info("[EMI DBG] PERICFG_BASE@ %p\n",
+			pr_debug("[EMI DBG] PERICFG_BASE@ %p\n",
 				PERICFG_BASE);
 		} else
 			pr_debug("[EMI DBG] no node for PERICFG_BASE\n");

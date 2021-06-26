@@ -97,26 +97,26 @@ int adsp_dts_mapping(void)
 	/* infracfg_ao */
 	node = of_find_compatible_node(NULL, NULL, INFRACFG_AO_NODE);
 	if (!node) {
-		pr_info("error: cannot find node %s\n", INFRACFG_AO_NODE);
+		pr_debug("error: cannot find node %s\n", INFRACFG_AO_NODE);
 		return -1;
 	}
 
 	adspreg.infracfg_ao = of_iomap(node, 0);
 	if (IS_ERR(adspreg.infracfg_ao)) {
-		pr_info("error: cannot iomap infra cfg\n");
+		pr_debug("error: cannot iomap infra cfg\n");
 		return -1;
 	}
 
 	/* pericfg */
 	node = of_find_compatible_node(NULL, NULL, PERICFG_NODE);
 	if (!node) {
-		pr_info("error: cannot find node %s\n", PERICFG_NODE);
+		pr_debug("error: cannot find node %s\n", PERICFG_NODE);
 		return -1;
 	}
 
 	adspreg.pericfg = of_iomap(node, 0);
 	if (IS_ERR(adspreg.pericfg)) {
-		pr_info("error: cannot iomap peri cfg\n");
+		pr_debug("error: cannot iomap peri cfg\n");
 		return -1;
 	}
 

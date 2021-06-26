@@ -33,8 +33,8 @@
 
 /* Accdet Debug define */
 #define ACCDET_DEBUG(format, args...) pr_debug(format, ##args)
-#define ACCDET_INFO(format, args...) pr_info(format, ##args)
-#define ACCDET_ERROR(format, args...) pr_info(format, ##args)
+#define ACCDET_INFO(format, args...) pr_debug(format, ##args)
+#define ACCDET_ERROR(format, args...) pr_debug(format, ##args)
 
 #ifdef CONFIG_MTK_PMIC_CHIP_MT6355
 /* just use on MT6757p */

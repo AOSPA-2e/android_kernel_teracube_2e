@@ -65,7 +65,7 @@
 		if (DEVAPC_LOG_LEVEL & DEVAPC_LOG_DBG) { \
 			pr_debug(fmt, ##args); \
 		} else if (DEVAPC_LOG_LEVEL & DEVAPC_LOG_INFO) { \
-			pr_info(fmt, ##args); \
+			pr_debug(fmt, ##args); \
 		} \
 	} while (0)
 
@@ -77,7 +77,7 @@
 		if (DEVAPC_VIO_LEVEL & DEVAPC_LOG_DBG) { \
 			pr_debug_ratelimited(fmt, ##args); \
 		} else if (DEVAPC_VIO_LEVEL & DEVAPC_LOG_INFO) { \
-			pr_info_ratelimited(fmt, ##args); \
+			pr_debug_ratelimited(fmt, ##args); \
 		} \
 	} while (0)
 
@@ -388,7 +388,7 @@ static void unmask_infra_module_irq(unsigned int module)
 	unsigned int apc_bit_index = 0;
 
 	if (module > PD_INFRA_VIO_MASK_MAX_INDEX) {
-		pr_info("[DEVAPC] unmask_infra_module_irq: module overflow!\n");
+		pr_debug("[DEVAPC] unmask_infra_module_irq: module overflow!\n");
 		return;
 	}
 
@@ -407,7 +407,7 @@ static void mask_infra_module_irq(unsigned int module)
 	unsigned int apc_bit_index = 0;
 
 	if (module > PD_INFRA_VIO_MASK_MAX_INDEX) {
-		pr_info("[DEVAPC] mask_infra_module_irq: module overflow!\n");
+		pr_debug("[DEVAPC] mask_infra_module_irq: module overflow!\n");
 		return;
 	}
 
@@ -425,7 +425,7 @@ static int clear_infra_vio_status(unsigned int module)
 	unsigned int apc_bit_index = 0;
 
 	if (module > PD_INFRA_VIO_STA_MAX_INDEX) {
-		pr_info("[DEVAPC] clear_infra_vio_status: module overflow!\n");
+		pr_debug("[DEVAPC] clear_infra_vio_status: module overflow!\n");
 		return -1;
 	}
 
@@ -443,7 +443,7 @@ static int check_infra_vio_status(unsigned int module)
 	unsigned int apc_bit_index = 0;
 
 	if (module > PD_INFRA_VIO_STA_MAX_INDEX) {
-		pr_info("[DEVAPC] check_infra_vio_status: module overflow!\n");
+		pr_debug("[DEVAPC] check_infra_vio_status: module overflow!\n");
 		return -1;
 	}
 
@@ -787,7 +787,7 @@ static int devapc_probe(struct platform_device *pdev)
 			DEVAPC_MSG("[DEVAPC] PD_INFRA_ADDRESS: %p, IRQ: %d\n",
 				devapc_pd_infra_base, devapc_infra_irq);
 		} else {
-			pr_info("[DEVAPC] %s\n",
+			pr_debug("[DEVAPC] %s\n",
 				"can't find DAPC_INFRA_PD compatible node");
 			return -1;
 		}
@@ -798,7 +798,7 @@ static int devapc_probe(struct platform_device *pdev)
 			IRQF_TRIGGER_LOW | IRQF_SHARED,
 			"devapc", &g_devapc_ctrl);
 	if (ret) {
-		pr_info("[DEVAPC] Failed to request infra irq! (%d)\n", ret);
+		pr_debug("[DEVAPC] Failed to request infra irq! (%d)\n", ret);
 		return ret;
 	}
 #endif
@@ -807,7 +807,7 @@ static int devapc_probe(struct platform_device *pdev)
 #if DEVAPC_USE_CCF
 	dapc_infra_clk = devm_clk_get(&pdev->dev, "devapc-infra-clock");
 	if (IS_ERR(dapc_infra_clk)) {
-		pr_info("[DEVAPC] (Infra) %s\n",
+		pr_debug("[DEVAPC] (Infra) %s\n",
 			"Cannot get devapc clock from common clock framework.");
 		return PTR_ERR(dapc_infra_clk);
 	}
@@ -854,16 +854,16 @@ static ssize_t devapc_dbg_read(struct file *file, char __user *buffer,
 	if (*ppos >= strlen(msg))
 		return 0;
 
-	pr_info("enter %s...\n", __func__);
-	pr_info("call smc to ATF.\n");
+	pr_debug("enter %s...\n", __func__);
+	pr_debug("call smc to ATF.\n");
 
 	retval = simple_read_from_buffer(buffer, count, ppos, msg, strlen(msg));
 
 	ret = mt_secure_call(MTK_SIP_LK_DAPC, 1, 0, 0, 0);
 	if (ret == 0)
-		pr_info("dump devapc reg success !\n");
+		pr_debug("dump devapc reg success !\n");
 	else
-		pr_info("dump devapc reg failed !\n");
+		pr_debug("dump devapc reg failed !\n");
 
 	return retval;
 }
@@ -878,10 +878,10 @@ static ssize_t devapc_dbg_write(struct file *file, const char __user *buffer,
 	int len = 0, ret = 0;
 	long slave_type = 0, domain = 0, index = 0;
 
-	pr_info("[DEVAPC] debugging...\n");
+	pr_debug("[DEVAPC] debugging...\n");
 	len = (count < (sizeof(input) - 1)) ? count : (sizeof(input) - 1);
 	if (copy_from_user(input, buffer, len)) {
-		pr_info("[DEVAPC] copy from user failed!\n");
+		pr_debug("[DEVAPC] copy from user failed!\n");
 		return -EFAULT;
 	}
 
@@ -890,10 +890,10 @@ static ssize_t devapc_dbg_write(struct file *file, const char __user *buffer,
 
 	if (sysfs_streq(input, "0")) {
 		enable_dynamic_one_core_violation_debug = 0;
-		pr_info("[DEVAPC] One-Core Debugging: Disabled\n");
+		pr_debug("[DEVAPC] One-Core Debugging: Disabled\n");
 	} else if (sysfs_streq(input, "1")) {
 		enable_dynamic_one_core_violation_debug = 1;
-		pr_info("[DEVAPC] One-Core Debugging: Enabled\n");
+		pr_debug("[DEVAPC] One-Core Debugging: Enabled\n");
 	} else {
 		tmp = strsep(&pinput, " ");
 		if (tmp != NULL)
@@ -902,10 +902,10 @@ static ssize_t devapc_dbg_write(struct file *file, const char __user *buffer,
 			slave_type = E_DAPC_OTHERS_SLAVE;
 
 		if (slave_type >= E_DAPC_OTHERS_SLAVE) {
-			pr_info("[DEVAPC] wrong input slave type\n");
+			pr_debug("[DEVAPC] wrong input slave type\n");
 			return -EFAULT;
 		}
-		pr_info("[DEVAPC] slave_type = %lu\n", slave_type);
+		pr_debug("[DEVAPC] slave_type = %lu\n", slave_type);
 
 		tmp = strsep(&pinput, " ");
 		if (tmp != NULL)
@@ -914,10 +914,10 @@ static ssize_t devapc_dbg_write(struct file *file, const char __user *buffer,
 			domain = E_DOMAIN_OTHERS;
 
 		if (domain >= E_DOMAIN_OTHERS) {
-			pr_info("[DEVAPC] wrong input domain type\n");
+			pr_debug("[DEVAPC] wrong input domain type\n");
 			return -EFAULT;
 		}
-		pr_info("[DEVAPC] domain id = %lu\n", domain);
+		pr_debug("[DEVAPC] domain id = %lu\n", domain);
 
 		tmp = strsep(&pinput, " ");
 		if (tmp != NULL)
@@ -926,15 +926,15 @@ static ssize_t devapc_dbg_write(struct file *file, const char __user *buffer,
 			index = 0xFFFFFFFF;
 
 		if (index > DEVAPC_TOTAL_SLAVES) {
-			pr_info("[DEVAPC] wrong input index type\n");
+			pr_debug("[DEVAPC] wrong input index type\n");
 			return -EFAULT;
 		}
-		pr_info("[DEVAPC] slave index = %lu\n", index);
+		pr_debug("[DEVAPC] slave index = %lu\n", index);
 
 		ret = mt_secure_call(MTK_SIP_LK_DAPC, slave_type,
 				domain, index, 0);
 
-		pr_info("dump devapc reg = 0x%x.\n", ret);
+		pr_debug("dump devapc reg = 0x%x.\n", ret);
 	}
 
 	return count;
@@ -986,13 +986,13 @@ static int __init devapc_init(void)
 
 	ret = platform_driver_register(&devapc_driver);
 	if (ret) {
-		pr_info("[DEVAPC] Unable to register driver (%d)\n", ret);
+		pr_debug("[DEVAPC] Unable to register driver (%d)\n", ret);
 		return ret;
 	}
 
 	g_devapc_ctrl = cdev_alloc();
 	if (!g_devapc_ctrl) {
-		pr_info("[DEVAPC] Failed to add devapc device! (%d)\n", ret);
+		pr_debug("[DEVAPC] Failed to add devapc device! (%d)\n", ret);
 		platform_driver_unregister(&devapc_driver);
 		return ret;
 	}

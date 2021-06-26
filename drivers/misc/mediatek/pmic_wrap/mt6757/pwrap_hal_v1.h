@@ -144,7 +144,7 @@ extern signed int pwrap_init(void);
 #define PWRAPREG(fmt, arg...)
 #endif /* end of #ifdef PMIC_WRAP_DEBUG */
 #define PWRAPERR(fmt, arg...)                                                  \
-	pr_info(PWRAPTAG "ERROR,line=%d " fmt, __LINE__, ##arg)
+	pr_debug(PWRAPTAG "ERROR,line=%d " fmt, __LINE__, ##arg)
 #elif (PMIC_WRAP_SCP)
 #ifdef PMIC_WRAP_DEBUG
 #define PWRAPFUC(fmt, arg...) PRINTF_D(PWRAPTAG "%s\n", __func__)

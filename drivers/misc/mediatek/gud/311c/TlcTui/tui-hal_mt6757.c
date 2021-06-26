@@ -45,7 +45,7 @@ static bool allocate_tui_memory_pool(struct tui_mempool *pool, size_t size)
 	bool ret = false;
 	void *tui_mem_pool = NULL;
 
-	pr_info("%s %s:%d\n", __func__, __FILE__, __LINE__);
+	pr_debug("%s %s:%d\n", __func__, __FILE__, __LINE__);
 	if (!size) {
 		pr_debug("TUI frame buffer: nothing to allocate.");
 		return true;

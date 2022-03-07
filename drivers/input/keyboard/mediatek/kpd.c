@@ -132,11 +132,11 @@ static DRIVER_ATTR(kpd_call_state, 0644, kpd_show_call_state,
 u8 gesture_open_state = 1;
 static ssize_t kpd_store_tp_gesture_state(struct device_driver *ddri, const char *buf, size_t count)
 {
-	if(strncmp("yes",buf,3)==0){
+	if(strncmp("1",buf,1)==0){
 		gesture_open_state = 1;
 		kpd_print("[TP_GESTURE] tp_sysfs_tpgesturet_store on.\n");
 	}
-	else if(strncmp("no",buf,2)==0){
+	else if(strncmp("0",buf,1)==0){
 		gesture_open_state = 0;
 		kpd_print("[TP_GESTURE] tp_sysfs_tpgesturet_store off.\n");
 	}

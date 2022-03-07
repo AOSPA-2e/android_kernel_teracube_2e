@@ -886,7 +886,7 @@ static int kpd_pdrv_probe(struct platform_device *pdev)
 	__set_bit(KEY_TPGESTURE_DOWN, kpd_input_dev->keybit);
 	__set_bit(KEY_TPGESTURE_LEFT, kpd_input_dev->keybit);
 	__set_bit(KEY_TPGESTURE_RIGHT, kpd_input_dev->keybit);
-	__set_bit(KEY_TPGESTURE_DOUBLE, kpd_input_dev->keybit);
+	__set_bit(KEY_WAKEUP, kpd_input_dev->keybit);
 	__set_bit(KEY_TPGESTURE_C, kpd_input_dev->keybit);
 	__set_bit(KEY_TPGESTURE_E, kpd_input_dev->keybit);
 	__set_bit(KEY_TPGESTURE_M, kpd_input_dev->keybit);

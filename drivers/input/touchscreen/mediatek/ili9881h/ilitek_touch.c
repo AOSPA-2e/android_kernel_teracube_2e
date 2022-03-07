@@ -836,7 +836,7 @@ void ilitek_tddi_report_gesture_mode(u8 *buf, int len)
 		//input_sync(idev->input);
 		//input_report_key(idev->input, KEY_GESTURE_POWER, 0);
 		//input_sync(idev->input);
-		kpd_touchpanel_gesture_handler(KEY_TPGESTURE_DOUBLE);
+		kpd_touchpanel_gesture_handler(KEY_WAKEUP);
 		break;
 	case GESTURE_LEFT:
                 kpd_touchpanel_gesture_handler(KEY_TPGESTURE_LEFT);

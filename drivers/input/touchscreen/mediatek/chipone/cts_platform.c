@@ -1283,7 +1283,7 @@ int cts_plat_process_gesture_info(struct cts_platform_data *pdata,
 	    break;
 
 	case GESTURE_D_TAP:
-	    kpd_touchpanel_gesture_handler(KEY_TPGESTURE_DOUBLE);
+	    kpd_touchpanel_gesture_handler(KEY_WAKEUP);
 	    break;
 
 	case GESTURE_Z:
